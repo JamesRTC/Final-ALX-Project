@@ -6,8 +6,8 @@ import Footer from "./Footer";
 
 export default function AppLayout() {
   return (
-    <div className="">
-      <div className="bg-black">
+    <div className="bg-black">
+      <div className="">
         <nav className="max-w-[1440px] mx-auto h-[80px] text-white bg-black text-[24px] flex items-center justify-between">
           <div className="flex items-center justify-center gap-1">
             <GiFilmSpool size="40px" />
@@ -19,7 +19,7 @@ export default function AppLayout() {
             <input
               type="text"
               placeholder="Search..."
-              className="bg-white flex-1 h-full px-2 text-black text-sm placeholder:text-sm focus:outline-none leading-[1] "
+              className="bg-white flex-1 h-full px-2 text-black text-sm placeholder:text-sm focus:outline-none leading-[1]  "
             />
           </div>
 
