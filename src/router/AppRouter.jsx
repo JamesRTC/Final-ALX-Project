@@ -3,7 +3,8 @@ import AppLayout from "../components/AppLayout";
 import Home from "../Pages/Home";
 import Movies from "../Pages/Movies";
 import Series from "../Pages/Series";
-import Popular from "../pages/Popular";
+import Trending from "../pages/Trending";
+
 export default function AppRouter() {
   return (
     <BrowserRouter>
@@ -12,7 +13,7 @@ export default function AppRouter() {
           <Route index element={<Home />} />
           <Route path="movies" element={<Movies />} />
           <Route path="series" element={<Series />} />
-          <Route path="popular" element={<Popular />} />
+          <Route path="trending" element={<Trending />} />
         </Route>
       </Routes>
     </BrowserRouter>

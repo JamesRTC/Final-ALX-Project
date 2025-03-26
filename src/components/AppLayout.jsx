@@ -8,8 +8,8 @@ export default function AppLayout() {
   return (
     <div className="bg-black">
       <div className="">
-        <nav className="max-w-[1440px] mx-auto h-[80px] text-white bg-black text-[24px] flex items-center justify-between">
-          <div className="flex items-center justify-center gap-1">
+        <nav className="max-w-[1440px] mx-auto h-[50px] text-white bg-black text-[24px] flex items-center justify-between py-5">
+          <div className="flex items-center justify-center gap-1 text-[24px]">
             <GiFilmSpool size="40px" />
             <p>Just Watch</p>
           </div>
@@ -34,7 +34,7 @@ export default function AppLayout() {
               <NavLink to="/series">Series</NavLink>
             </li>
             <li>
-              <NavLink to="/popular">Popular</NavLink>
+              <NavLink to="/trending">Trending</NavLink>
             </li>
             <div className="flex gap-1">
               <li>

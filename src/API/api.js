@@ -7,3 +7,10 @@ export async function heroSlidingDeckMovies(page) {
   const data = await res.json();
   return data.results.filter((movie) => movie.vote_average >= 7);
 }
+
+export async function heroTrendingList(page = 1) {
+  const res = await fetch(`${BASE_URL}/trending/all/day?language=en-US&api_key=${apiKey}&page=${page}`);
+  if (!res.ok) throw Error("Failed to fetch data");
+  const data = await res.json();
+  return data.results;
+}
