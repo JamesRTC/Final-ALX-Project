@@ -1,3 +1,8 @@
+
 export default function HeroLatestMovies() {
-  return <div></div>;
+  return (
+    <div>
+      
+    </div>
+  )
 }

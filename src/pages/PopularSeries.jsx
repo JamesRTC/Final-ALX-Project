@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { tvShows } from "../API/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { heroTVShows } from "../API/api";
 import SeriesCard from "../components/SeriesCard";
 import { useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
 
-export default function Series() {
+export default function PopularSeries() {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
@@ -18,17 +18,14 @@ export default function Series() {
 
   useEffect(() => {
     queryClient.prefetchQuery({
-      queryKey: ["tvShows", page + 1],
-      queryFn: () => tvShows(page + 1),
+      queryKey: ["heroTVShows", page + 1],
+      queryFn: () => heroTVShows(page + 1),
     });
   }, [page, queryClient]);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["tvShows", page],
-    queryFn: () => tvShows(page),
-    staleTime: 1000 * 60 * 5,
-    cacheTime: 1000 * 60 * 6,
-    refetchOnWindowFocus: false,
+    queryKey: ["heroTVShows", page],
+    queryFn: () => heroTVShows(page),
     keepPreviousData: true,
   });
 

@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { tvShows } from "../API/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import SeriesCard from "../components/SeriesCard";
+import { heroTopRatedMovies } from "../API/api";
+import MovieCard from "../components/MovieCard";
 import { useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
 
-export default function Series() {
+export default function TopRatedMovies() {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
@@ -18,17 +18,14 @@ export default function Series() {
 
   useEffect(() => {
     queryClient.prefetchQuery({
-      queryKey: ["tvShows", page + 1],
-      queryFn: () => tvShows(page + 1),
+      queryKey: ["heroTopRatedMovies", page + 1],
+      queryFn: () => heroTopRatedMovies(page + 1),
     });
   }, [page, queryClient]);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["tvShows", page],
-    queryFn: () => tvShows(page),
-    staleTime: 1000 * 60 * 5,
-    cacheTime: 1000 * 60 * 6,
-    refetchOnWindowFocus: false,
+    queryKey: ["heroTopRatedMovies", page],
+    queryFn: () => heroTopRatedMovies(page),
     keepPreviousData: true,
   });
 
@@ -40,7 +37,7 @@ export default function Series() {
       <Pagination />
       <div className="text-black grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {data.map((item) => (
-          <SeriesCard key={item.id} item={item} />
+          <MovieCard key={item.id} item={item} />
         ))}
       </div>
       <Pagination />

@@ -52,23 +52,25 @@ export default function HeroSlidingDeck() {
         }}
         grabCursor={true}
       >
-        {data.map((movie) => (
-          <SwiperSlide key={movie.id} className="flex justify-center items-center">
-            <div className="relative w-[600px] h-[800px]">
-              <img
-                src={`https://image.tmdb.org/t/p/w780${movie.poster_path}`}
-                alt={movie.title}
-                className="rounded-lg shadow-lg object-cover w-full h-full"
-              />
-              <div className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 rounded-md py-5 px-10">
-                <h2 className="text-lg font-bold">
-                  {movie.title} ({getYear(movie.release_date)})
-                </h2>
-                <p>⭐ {movie.vote_average.toFixed(1)}</p>
+        {data
+          .filter((movie) => movie.vote_average >= 7)
+          .map((movie) => (
+            <SwiperSlide key={movie.id} className="flex justify-center items-center">
+              <div className="relative w-[600px] h-[800px]">
+                <img
+                  src={`https://image.tmdb.org/t/p/w780${movie.poster_path}`}
+                  alt={movie.title}
+                  className="rounded-lg shadow-lg object-cover w-full h-full"
+                />
+                <div className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 rounded-md py-5 px-10">
+                  <h2 className="text-lg font-bold">
+                    {movie.title} ({getYear(movie.release_date)})
+                  </h2>
+                  <p>⭐ {movie.vote_average.toFixed(1)}</p>
+                </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );
