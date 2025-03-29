@@ -6,7 +6,7 @@ export default function TrendingMediaCard({ item }) {
       <img src={`https://image.tmdb.org/t/p/w780${item.poster_path}`} className="w-full rounded-md" />
       <div className="flex justify-between mt-2 text-sm">
         <p className="font-bold">{item.media_type === "movie" ? item.title : item.original_name}</p>
-        <p>⭐ {item.vote_average.toFixed(1)}</p>
+        <p>⭐ {item.vote_average?.toFixed(1)}</p>
       </div>
       <div className="flex justify-between items-center text-xs mt-2">
         <p className="text-gray-600">{getYearTrending(item)}</p>

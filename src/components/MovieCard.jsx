@@ -4,7 +4,7 @@ export default function MovieCard({ item }) {
   return (
     <div className="bg-gray-300 p-2 rounded-lg shadow-md">
       <img src={`https://image.tmdb.org/t/p/w780${item.poster_path}`} className="w-full rounded-md" />
-      <div className="flex justify-between mt-2 text-sm">
+      <div className="flex justify-between mt-2 text-sm items-center ">
         <p className="font-bold">{item.original_title}</p>
         <p>⭐ {item.vote_average.toFixed(1)}</p>
       </div>

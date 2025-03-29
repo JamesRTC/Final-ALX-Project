@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { heroSlidingDeckMovies } from "../API/api";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -10,6 +10,7 @@ import { Navigation, Pagination, Autoplay, EffectCoverflow } from "swiper/module
 import { getYear } from "../Utils/getMovieYear";
 
 export default function HeroSlidingDeck() {
+  const queryClient = useQueryClient();
   const [pageCount, setPageCount] = useState(1);
 
   useEffect(() => {
@@ -28,6 +29,13 @@ export default function HeroSlidingDeck() {
     refetchOnWindowFocus: false,
     keepPreviousData: true,
   });
+
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["slidingPopularMovies", pageCount + 1],
+      queryFn: () => heroSlidingDeckMovies(pageCount + 1),
+    });
+  }, [pageCount, queryClient]);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -52,7 +60,7 @@ export default function HeroSlidingDeck() {
         }}
         grabCursor={true}
       >
-        {data
+        {data.results
           .filter((movie) => movie.vote_average >= 7)
           .map((movie) => (
             <SwiperSlide key={movie.id} className="flex justify-center items-center">

@@ -17,32 +17,34 @@ export default function Movies() {
     }
   }, []);
 
-  useEffect(() => {
-    queryClient.prefetchQuery({
-      queryKey: ["slidingPopularMovies", page + 1],
-      queryFn: () => heroSlidingDeckMovies(page + 1),
-    });
-  }, [page, queryClient]);
-
   const { data, isLoading, error } = useQuery({
     queryKey: ["slidingPopularMovies", page],
     queryFn: () => heroSlidingDeckMovies(page),
     keepPreviousData: true,
   });
 
+  useEffect(() => {
+    if (data && page < data.total_pages) {
+      queryClient.prefetchQuery({
+        queryKey: ["slidingPopularMovies", page + 1],
+        queryFn: () => heroSlidingDeckMovies(page + 1),
+      });
+    }
+  }, [page, queryClient, data]);
+
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
     <section className="max-w-[1200px] mx-auto">
-      <Pagination />
+      {data?.total_pages ? <Pagination totalPages={data.total_pages} /> : null}
       <div className="text-black grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-        {data.map((item) => (
+        {data.results.map((item) => (
           <MovieCard key={item.id} item={item} />
         ))}
       </div>
 
-      <Pagination />
+      {data?.total_pages ? <Pagination totalPages={data.total_pages} /> : null}
     </section>
   );
 }

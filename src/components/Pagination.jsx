@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 
-export default function Pagination({ totalPages = 100 }) {
+export default function Pagination({ totalPages }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
 
@@ -17,7 +17,9 @@ export default function Pagination({ totalPages = 100 }) {
       >
         Previous
       </button>
-      <span className="text-lg font-semibold text-white">Page {page}</span>
+      <span className="text-lg font-semibold text-white">
+        Page {page} / {totalPages}
+      </span>
 
       <button
         className="bg-gray-700 text-white px-4 py-2 rounded disabled:opacity-50"

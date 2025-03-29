@@ -26,7 +26,7 @@ export default function HeroTrendingList() {
         </p>
       </div>
       <div className="text-black grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-        {data.slice(0, 8).map((item) => (
+        {data.results.slice(0, 8).map((item) => (
           <TrendingMediaCard item={item} key={item.id} />
         ))}
       </div>
