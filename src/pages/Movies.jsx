@@ -32,7 +32,13 @@ export default function Movies() {
     }
   }, [page, queryClient, data]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-black">
+        <div className="dots-2"></div>
+      </div>
+    );
+
   if (error) return <p>Error: {error.message}</p>;
 
   return (

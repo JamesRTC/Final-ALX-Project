@@ -43,24 +43,15 @@ export async function tvShows(page = 1) {
   return data;
 }
 
-export async function searchLimitedPages(query, maxPages = 3, startPage = 1) {
-  let page = startPage;
-  let totalPages = 1;
-  let allResults = [];
-
-  while (page <= totalPages && page < startPage + maxPages) {
-    const res = await fetch(
-      `${BASE_URL}/search/multi?api_key=${apiKey}&query=${encodeURIComponent(query)}&page=${page}`
-    );
-    if (!res.ok) throw new Error("Failed to fetch results");
-
-    const data = await res.json();
-    allResults = [...allResults, ...data.results];
-    totalPages = data.total_pages;
-
-    if (page >= totalPages) break;
-    page++;
-  }
-
-  return { results: allResults, nextPage: page <= totalPages ? page : null };
+export async function searchMovieDetails(movieID) {
+  const res = await fetch(`${BASE_URL}/movie/${movieID}?api_key=${apiKey}&language=en-US`);
+  if (!res.ok) throw Error("Failed to fetch data");
+  const data = await res.json();
+  return data;
+}
+export async function searchSeriesDetails(seriesID) {
+  const res = await fetch(`${BASE_URL}/tv/${seriesID}?api_key=${apiKey}&language=en-US`);
+  if (!res.ok) throw Error("Failed to fetch data");
+  const data = await res.json();
+  return data;
 }

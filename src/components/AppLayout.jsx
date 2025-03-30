@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { GiFilmSpool } from "react-icons/gi";
 import { IoIosSearch } from "react-icons/io";
 import { useEffect, useState } from "react";
@@ -24,45 +24,63 @@ export default function AppLayout() {
     }
   }, [location.pathname]);
 
+  const navLinkClasses = ({ isActive }) =>
+    `relative hover:text-blue-500 delay-150 ${
+      isActive ? "text-blue-500 font-bold" : "before:content-[attr(data-text)] before:invisible before:font-bold"
+    }`;
+
   return (
     <div className="bg-black">
       <nav className="max-w-[1440px] mx-auto h-[50px] text-white bg-black text-[24px] flex items-center justify-between py-5">
-        <div className="flex items-center justify-center gap-1 text-[24px]">
+        <Link to="/" className="flex items-center justify-center gap-1 text-[24px]">
           <GiFilmSpool size="40px" />
-          <p>Just Watch</p>
-        </div>
+          <p>WatchIT</p>
+        </Link>
 
         <div className="flex items-center bg-white rounded-[6px] px-2 h-8">
           <IoIosSearch color="black" size="16px" />
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="e.g. The last of us"
+            aria-label="Search movies and series"
             className="bg-white flex-1 h-full px-2 text-black text-sm placeholder:text-sm focus:outline-none leading-[1]"
             value={query}
             onChange={handleSearchChange}
           />
         </div>
 
-        <ul className="flex items-center gap-[50px] justify-center">
-          <li>
-            <NavLink to="/">Home</NavLink>
+        <ul className="flex items-center gap-[50px] justify-center text-xl">
+          <li className="hover:text-blue-500 delay-150 hover:text-bold">
+            <NavLink className={navLinkClasses} to="/">
+              Home
+            </NavLink>
           </li>
-          <li>
-            <NavLink to="/movies">Movies</NavLink>
+          <li className="hover:text-blue-500 delay-150">
+            <NavLink className={navLinkClasses} to="/movies">
+              Movies
+            </NavLink>
           </li>
-          <li>
-            <NavLink to="/series">Series</NavLink>
+          <li className="hover:text-blue-500 delay-150">
+            <NavLink className={navLinkClasses} to="/series">
+              Series
+            </NavLink>
           </li>
-          <li>
-            <NavLink to="/trending">Trending</NavLink>
+          <li className="hover:text-blue-500 delay-150">
+            <NavLink className={navLinkClasses} to="/trending">
+              Trending
+            </NavLink>
           </li>
           <div className="flex gap-1">
-            <li>
-              <NavLink to="/login">Login</NavLink>
+            <li className="hover:text-blue-500 delay-150">
+              <NavLink className={navLinkClasses} to="/login">
+                Login
+              </NavLink>
             </li>
             <span>|</span>
-            <li>
-              <NavLink to="/register">Register</NavLink>
+            <li className="hover:text-blue-500 delay-150">
+              <NavLink className={navLinkClasses} to="/register">
+                Register
+              </NavLink>
             </li>
           </div>
         </ul>

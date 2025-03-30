@@ -8,6 +8,8 @@ import UpcomingMovies from "../pages/UpcomingMovies";
 import PopularSeries from "../pages/PopularSeries";
 import TopRatedMovies from "../pages/TopRatedMovies";
 import SearchResults from "../pages/SearchResults";
+import MovieDetails from "../pages/MovieDetails";
+import SeriesDetails from "../pages/SeriesDetails";
 
 export default function AppRouter() {
   return (
@@ -22,6 +24,8 @@ export default function AppRouter() {
           <Route path="popular-series" element={<PopularSeries />} />
           <Route path="trending" element={<Trending />} />
           <Route path="search" element={<SearchResults />} />
+          <Route path="movie/:id" element={<MovieDetails />} />
+          <Route path="series/:id" element={<SeriesDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>

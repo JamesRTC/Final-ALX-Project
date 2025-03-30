@@ -67,11 +67,16 @@ export default function SearchResults() {
     }
   };
 
+  if (loading)
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-black">
+        <div className="dots-2"></div>
+      </div>
+    );
+
   return (
     <div className="max-w-6xl mx-auto mt-5">
       <h2 className="text-white text-2xl mb-4">Search Results for "{query}"</h2>
-
-      {loading && <p className="text-white">Loading...</p>}
 
       {results.length > 0 ? (
         <>
@@ -81,15 +86,20 @@ export default function SearchResults() {
             ))}
           </div>
 
-          {nextPage <= totalPages && (
-            <button
-              onClick={loadMoreResults}
-              className="mt-5 bg-blue-500 text-white px-4 py-2 rounded-md block mx-auto"
-              disabled={isLoadingMore}
-            >
-              {isLoadingMore ? "Loading..." : "Load More"}
-            </button>
-          )}
+          {nextPage <= totalPages &&
+            (isLoadingMore ? (
+              <div className="flex justify-center my-4">
+                <div className="dots-2"></div>
+              </div>
+            ) : (
+              <button
+                onClick={loadMoreResults}
+                className="mt-5 bg-blue-500 text-white px-4 py-2 rounded-md block mx-auto"
+                disabled={isLoadingMore}
+              >
+                Load More
+              </button>
+            ))}
         </>
       ) : (
         !loading && <p className="text-white">No results found.</p>

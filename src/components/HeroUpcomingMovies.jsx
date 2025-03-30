@@ -14,7 +14,12 @@ export default function HeroUpcomingMovies() {
     keepPrekeepPreviousData: true,
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center min-h-screen backdrop-blur-md">
+        <div className="dots-2"></div>
+      </div>
+    );
   if (error) return <p>Error: {error.message}</p>;
 
   return (
