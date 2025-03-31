@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { heroTVShows } from "../API/api";
+import { heroTopRatedTVShows } from "../API/api";
 import { useNavigate } from "react-router-dom";
 import SeriesCard from "./SeriesCard";
 
-export default function HeroTVShows() {
+export default function HeroTopRatedTVShows() {
   const navigate = useNavigate();
   const { data, isLoading, error } = useQuery({
-    queryKey: ["heroTVShows", 1],
-    queryFn: () => heroTVShows(1),
+    queryKey: ["heroTopRatedTVShows", 1],
+    queryFn: () => heroTopRatedTVShows(1),
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 6,
     refetchOnWindowFocus: false,
@@ -16,7 +16,7 @@ export default function HeroTVShows() {
 
   if (isLoading)
     return (
-      <div className="flex justify-center items-center min-h-screen  backdrop-blur-md">
+      <div className="flex justify-center items-center min-h-screen backdrop-blur-md">
         <div className="dots-2"></div>
       </div>
     );

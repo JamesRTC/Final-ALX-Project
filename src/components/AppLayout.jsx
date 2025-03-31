@@ -30,8 +30,8 @@ export default function AppLayout() {
     }`;
 
   return (
-    <div className="bg-black">
-      <nav className="max-w-[1440px] mx-auto h-[50px] text-white bg-black text-[24px] flex items-center justify-between py-5">
+    <div className="bg-black flex flex-col min-h-screen">
+      <nav className="w-full max-w-[1440px] mx-auto h-[50px] text-white bg-gray-900 text-[24px] flex items-center justify-between py-5 border-b-gray-600 border-b-1 px-5 rounded-lg">
         <Link to="/" className="flex items-center justify-center gap-1 text-[24px]">
           <GiFilmSpool size="40px" />
           <p>WatchIT</p>
@@ -86,8 +86,13 @@ export default function AppLayout() {
         </ul>
       </nav>
 
-      <Outlet />
-      <Footer />
+      {/* Ensures content area fills available space */}
+      <section className="flex-1">
+        <Outlet />
+      </section>
+
+      {/* Footer sticks to the bottom */}
+      <Footer className="mt-auto" />
     </div>
   );
 }

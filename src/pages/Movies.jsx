@@ -4,33 +4,51 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import MovieCard from "../components/MovieCard";
 import { useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
+import Filters from "../components/Filters";
 
 export default function Movies() {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // URL Params
   const page = Number(searchParams.get("page")) || 1;
+  const selectedGenre = searchParams.get("genre") || "";
+  const selectedYear = searchParams.get("year") || "";
+  const selectedRating = searchParams.get("rating") || "";
+  const sortBy = searchParams.get("sort_by") || "popularity.desc";
 
-  useEffect(() => {
-    if (!searchParams.has("page")) {
-      setSearchParams({ page: "1" }, { replace: true });
-    }
-  }, []);
+  const handleSearch = (filters) => {
+    setSearchParams({
+      page: "1",
+      genre: filters.genre,
+      year: filters.year,
+      rating: filters.rating,
+      sort_by: filters.sortBy,
+    });
+  };
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["slidingPopularMovies", page],
-    queryFn: () => heroSlidingDeckMovies(page),
+    queryKey: ["movies", page, selectedGenre, selectedYear, selectedRating, sortBy],
+    queryFn: () =>
+      heroSlidingDeckMovies({ page, genre: selectedGenre, year: selectedYear, rating: selectedRating, sortBy }),
     keepPreviousData: true,
   });
 
   useEffect(() => {
     if (data && page < data.total_pages) {
       queryClient.prefetchQuery({
-        queryKey: ["slidingPopularMovies", page + 1],
-        queryFn: () => heroSlidingDeckMovies(page + 1),
+        queryKey: ["movies", page + 1, selectedGenre, selectedYear, selectedRating, sortBy],
+        queryFn: () =>
+          heroSlidingDeckMovies({
+            page: page + 1,
+            genre: selectedGenre,
+            year: selectedYear,
+            rating: selectedRating,
+            sortBy,
+          }),
       });
     }
-  }, [page, queryClient, data]);
+  }, [page, queryClient, data, selectedGenre, selectedYear, selectedRating, sortBy]);
 
   if (isLoading)
     return (
@@ -42,9 +60,20 @@ export default function Movies() {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <section className="max-w-[1200px] mx-auto">
+    <section className="max-w-[1200px] mx-auto p-4">
+      {/* Filters Component */}
+      <Filters
+        initialFilters={{ genre: selectedGenre, year: selectedYear, rating: selectedRating, sortBy }}
+        onSearch={handleSearch}
+      />
+
+      <h2 className="text-white font-bold text-4xl text-center mt-5">Movies</h2>
+
+      {/* Pagination */}
       {data?.total_pages ? <Pagination totalPages={data.total_pages} /> : null}
-      <div className="text-black grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+
+      {/* Movies Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         {data.results.map((item) => (
           <MovieCard key={item.id} item={item} />
         ))}

@@ -24,7 +24,7 @@ export default function DetailsLayout({ details }) {
       <div className="max-w-4xl mx-auto p-6">
         <div className="flex flex-col md:flex-row gap-6">
           <img
-            src={`https://image.tmdb.org/t/p/w500${details.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w342${details.poster_path}`}
             alt={details.title || details.name}
             className="w-[250px] rounded-lg shadow-lg"
           />

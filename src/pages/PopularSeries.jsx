@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { heroTVShows } from "../API/api";
+import { heroTopRatedTVShows } from "../API/api";
 import SeriesCard from "../components/SeriesCard";
 import { useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
@@ -18,14 +18,14 @@ export default function PopularSeries() {
 
   useEffect(() => {
     queryClient.prefetchQuery({
-      queryKey: ["heroTVShows", page + 1],
-      queryFn: () => heroTVShows(page + 1),
+      queryKey: ["heroTopRatedTVShows", page + 1],
+      queryFn: () => heroTopRatedTVShows(page + 1),
     });
   }, [page, queryClient]);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["heroTVShows", page],
-    queryFn: () => heroTVShows(page),
+    queryKey: ["heroTopRatedTVShows", page],
+    queryFn: () => heroTopRatedTVShows(page),
     keepPreviousData: true,
   });
 
@@ -39,6 +39,7 @@ export default function PopularSeries() {
 
   return (
     <section className="max-w-[1200px] mx-auto">
+      <h2 className="text-white font-bold text-4xl text-center mt-5">Top-Rated TV Shows</h2>
       {data?.total_pages ? <Pagination totalPages={data.total_pages} /> : null}
       <div className="text-black grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {data.results.map((item) => (

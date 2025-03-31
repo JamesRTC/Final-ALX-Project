@@ -24,7 +24,7 @@ export default function HeroSlidingDeck() {
 
   const { isLoading, data, error } = useQuery({
     queryKey: ["slidingPopularMovies", pageCount],
-    queryFn: () => heroSlidingDeckMovies(pageCount),
+    queryFn: () => heroSlidingDeckMovies({ page: pageCount }),
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 6,
     refetchOnWindowFocus: false,
@@ -34,7 +34,7 @@ export default function HeroSlidingDeck() {
   useEffect(() => {
     queryClient.prefetchQuery({
       queryKey: ["slidingPopularMovies", pageCount + 1],
-      queryFn: () => heroSlidingDeckMovies(pageCount + 1),
+      queryFn: () => heroSlidingDeckMovies({ page: pageCount + 1 }),
     });
   }, [pageCount, queryClient]);
 
