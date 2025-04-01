@@ -10,6 +10,10 @@ import TopRatedMovies from "../pages/TopRatedMovies";
 import SearchResults from "../pages/SearchResults";
 import MovieDetails from "../pages/MovieDetails";
 import SeriesDetails from "../pages/SeriesDetails";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import ProtectedRoute from "../components/ProtectedRoute";
+import WatchList from "../pages/WatchList";
 
 export default function AppRouter() {
   return (
@@ -26,6 +30,11 @@ export default function AppRouter() {
           <Route path="search" element={<SearchResults />} />
           <Route path="movie/:id" element={<MovieDetails />} />
           <Route path="series/:id" element={<SeriesDetails />} />
+          <Route path="/watchlist" element={<ProtectedRoute />}>
+            <Route index element={<WatchList />} />
+          </Route>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
         </Route>
       </Routes>
     </BrowserRouter>
