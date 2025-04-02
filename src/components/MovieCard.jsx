@@ -39,7 +39,10 @@ export default function MovieCard({ item }) {
 
   return (
     <div className="bg-gray-300 p-2 rounded-lg shadow-md relative">
-      <button className="absolute top-6 right-6 p-2 bg-black/50 rounded-full" onClick={handleFavoriteClick}>
+      <button
+        className="absolute top-6 right-6 max-sm:top-3 max-sm:right-3 p-2 bg-black/50 rounded-full"
+        onClick={handleFavoriteClick}
+      >
         {isFavorite ? <AiFillHeart color="red" size={20} /> : <AiOutlineHeart color="white" size={20} />}
       </button>
       <Link to={`/movie/${item.id}`}>
@@ -50,6 +53,8 @@ export default function MovieCard({ item }) {
           alt={item.original_title}
           loading="lazy"
           className="w-full rounded-md"
+          width="342"
+          height="513"
         />
         <div className="flex justify-between mt-2 text-sm items-center">
           <p className="font-bold">{item.original_title}</p>

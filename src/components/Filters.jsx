@@ -19,7 +19,7 @@ export default function Filters({ initialFilters, onSearch }) {
   };
 
   return (
-    <div className="flex flex-wrap items-center justify-between bg-gray-700 p-6 rounded-lg shadow-md gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 bg-gray-700 p-6 rounded-lg shadow-md">
       <select
         name="genre"
         value={filters.genre}
@@ -78,19 +78,22 @@ export default function Filters({ initialFilters, onSearch }) {
         <option value="release_date.desc">Newest First</option>
       </select>
 
-      <button
-        onClick={() => onSearch(filters)}
-        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition"
-      >
-        Search
-      </button>
+      {/* Centered buttons on large screens */}
+      <div className="lg:col-span-4 flex justify-center space-x-4 col-span-2 sm:col-span-1">
+        <button
+          onClick={() => onSearch(filters)}
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition"
+        >
+          Search
+        </button>
 
-      <button
-        onClick={handleClearFilters}
-        className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md shadow-md transition"
-      >
-        Clear Filters
-      </button>
+        <button
+          onClick={handleClearFilters}
+          className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md shadow-md transition"
+        >
+          Clear Filters
+        </button>
+      </div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ export default function DetailsLayout({ details }) {
   return (
     <div className="text-white min-h-screen">
       <div
-        className="relative w-full h-[500px] bg-cover bg-top-[30px]"
+        className="relative w-full h-[500px] bg-cover bg-top-[30px] max-sm:hidden"
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/original${details.backdrop_path})`,
         }}
@@ -23,10 +23,16 @@ export default function DetailsLayout({ details }) {
       </div>
       <div className="max-w-4xl mx-auto p-6">
         <div className="flex flex-col md:flex-row gap-6">
+          <button
+            onClick={() => navigate(-1)}
+            className=" sm:hidden flex items-center gap-2 font-bold hover:text-blue-500 delay-150 cursor-pointer"
+          >
+            <IoIosArrowRoundBack /> <span>Back</span>
+          </button>
           <img
             src={`https://image.tmdb.org/t/p/w342${details.poster_path}`}
             alt={details.title || details.name}
-            className="w-[250px] rounded-lg shadow-lg"
+            className="w-[250px] rounded-lg shadow-lg max-sm:w-full"
           />
           <div className="flex-1 space-y-3">
             <p className="text-gray-300 italic">{details.tagline}</p>

@@ -83,7 +83,7 @@ export default function Series() {
       <Filters genres={genres} initialFilters={filters} onSearch={handleSearch} />
       <h2 className="text-white font-bold text-4xl text-center mt-5">TV Series</h2>
       {data?.total_pages ? <Pagination totalPages={data.total_pages} /> : null}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         {data.results.map((item) => (
           <SeriesCard key={item.id} item={item} />
         ))}

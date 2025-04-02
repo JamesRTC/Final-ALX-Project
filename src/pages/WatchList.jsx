@@ -18,7 +18,7 @@ export default function WatchingList() {
   return (
     <>
       <h2 className="text-white font-bold text-4xl text-center my-5">My Watch List</h2>
-      <div className="text-black grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 max-w-[1200px] mx-auto">
+      <div className="text-black grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 max-w-[1200px] mx-auto">
         {watchlistItems.length > 0 ? (
           watchlistItems.map((item) => (
             <WatchListCard key={item.id} item={item} onWatchlistChange={handleWatchlistChange} />

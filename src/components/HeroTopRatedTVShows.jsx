@@ -30,7 +30,7 @@ export default function HeroTopRatedTVShows() {
           Browse all
         </p>
       </div>
-      <div className="text-black grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+      <div className="text-black grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {data.results
           .filter((movie) => movie.first_air_date.split("-")[0] >= 2020 && movie.vote_average >= 8)
           .slice(0, 8)

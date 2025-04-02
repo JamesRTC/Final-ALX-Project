@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { GiFilmSpool } from "react-icons/gi";
 import { IoIosSearch } from "react-icons/io";
-import { useAuth } from "../context/AuthContext"; // Import auth context
+import { FaUserCircle } from "react-icons/fa"; // Importing user icon
+import { useAuth } from "../context/AuthContext";
+import SearchBar from "./SearchBar";
+import useSearch from "../Hooks/useSearch";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion"; // Importing framer-motion
 
 export default function NavBar() {
-  const [query, setQuery] = useState("");
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { user, logout } = useAuth(); // Get user and logout function
-
-  console.log("AuthContext values:", { user, logout });
-
-  const handleSearchChange = (e) => {
-    const newQuery = e.target.value;
-    setQuery(newQuery);
-
-    if (newQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(newQuery)}`);
-    }
-  };
+  const { query, handleSearchChange } = useSearch();
+  const { user, logout } = useAuth();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCompact, setIsCompact] = useState(window.innerWidth <= 1250);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); // State for user dropdown menu
 
   useEffect(() => {
-    if (!location.pathname.startsWith("/search")) {
-      setQuery("");
-    }
-  }, [location.pathname]);
+    const handleResize = () => {
+      setIsCompact(window.innerWidth <= 1250);
+      if (window.innerWidth > 1250) setIsSearchOpen(false);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
+  const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
 
   const navLinkClasses = ({ isActive }) =>
     `relative hover:text-blue-500 delay-150 ${
@@ -33,25 +34,33 @@ export default function NavBar() {
     }`;
 
   return (
-    <nav className="w-full max-w-[1440px] mx-auto h-[50px] text-white bg-gray-900 text-[24px] flex items-center justify-between py-5 border-b-gray-800 border-b-1 px-5 rounded-lg">
+    <nav className="max-md:hidden w-full mx-auto h-[50px] text-white bg-gray-900 text-[24px] flex items-center justify-between py-8 border-b-gray-800 px-10">
       <Link to="/" className="flex items-center justify-center gap-1 text-[24px]">
         <GiFilmSpool size="40px" />
         <p>WatchIT</p>
       </Link>
 
-      <div className="flex items-center bg-white rounded-[6px] px-2 h-8">
-        <IoIosSearch color="black" size="16px" />
-        <input
-          type="text"
-          placeholder="e.g. The last of us"
-          aria-label="Search movies and series"
-          className="bg-white flex-1 h-full px-2 text-black text-sm placeholder:text-sm focus:outline-none leading-[1]"
-          value={query}
-          onChange={handleSearchChange}
-        />
-      </div>
+      {isCompact ? (
+        <button onClick={toggleSearch} className="relative p-2">
+          <IoIosSearch size={24} />
+        </button>
+      ) : (
+        <SearchBar query={query} handleSearchChange={handleSearchChange} />
+      )}
 
-      <ul className="flex items-center gap-[50px] justify-center text-xl">
+      {isSearchOpen && isCompact && (
+        <motion.div
+          initial={{ opacity: 0, y: "-50px" }}
+          animate={{ opacity: 1, y: "0" }}
+          exit={{ opacity: 0, y: "-50px" }}
+          transition={{ duration: 0.3 }}
+          className="absolute top-[60px] left-0 w-full bg-gray-800 p-4 rounded shadow-lg"
+        >
+          <SearchBar query={query} handleSearchChange={handleSearchChange} />
+        </motion.div>
+      )}
+
+      <ul className="flex items-center gap-[50px] max-[950px]:gap-[25px] max-[950px]:text-[20px]  justify-center text-xl">
         <li className="hover:text-blue-500 delay-150">
           <NavLink className={navLinkClasses} to="/">
             Home
@@ -78,34 +87,38 @@ export default function NavBar() {
           </NavLink>
         </li>
 
-        <div className="flex gap-1">
+        {/* User Icon / User Menu */}
+        <div className="relative">
           {user ? (
-            <>
-              <li className="text-blue-400">Hi, {user.displayName || "User"}</li>
-              <span>|</span>
-              <li
-                className="hover:text-red-500 cursor-pointer"
-                onClick={async () => {
-                  await logout();
-                }}
-              >
-                Logout
-              </li>
-            </>
+            <button onClick={toggleUserMenu} className="p-2">
+              <FaUserCircle size={30} />
+            </button>
           ) : (
-            <>
-              <li className="hover:text-blue-500 delay-150">
-                <NavLink className={navLinkClasses} to="/login">
-                  Login
-                </NavLink>
-              </li>
-              <span>|</span>
-              <li className="hover:text-blue-500 delay-150">
-                <NavLink className={navLinkClasses} to="/register">
-                  Register
-                </NavLink>
-              </li>
-            </>
+            <NavLink className={navLinkClasses} to="/login">
+              Login
+            </NavLink>
+          )}
+
+          {isUserMenuOpen && user && (
+            <motion.div
+              initial={{ opacity: 0, y: "-10px" }}
+              animate={{ opacity: 1, y: "0" }}
+              exit={{ opacity: 0, y: "-10px" }}
+              transition={{ duration: 0.3 }}
+              className="absolute left-1/2 transform -translate-x-1/2 bg-gray-800 p-4 rounded shadow-lg w-32 mt-2"
+            >
+              <ul>
+                <li
+                  className="hover:text-red-500 cursor-pointer text-center"
+                  onClick={async () => {
+                    await logout();
+                    setIsUserMenuOpen(false);
+                  }}
+                >
+                  Logout
+                </li>
+              </ul>
+            </motion.div>
           )}
         </div>
       </ul>

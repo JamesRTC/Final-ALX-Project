@@ -43,7 +43,10 @@ export default function SeriesCard({ item }) {
 
   return (
     <div className="bg-gray-300 p-2 rounded-lg shadow-md relative">
-      <button className="absolute top-6 right-6 p-2 bg-black/50 rounded-full" onClick={handleFavoriteClick}>
+      <button
+        className="absolute top-6 right-6 max-sm:top-3 max-sm:right-3  p-2 bg-black/50 rounded-full"
+        onClick={handleFavoriteClick}
+      >
         {isFavorite ? <AiFillHeart color="red" size={20} /> : <AiOutlineHeart color="white" size={20} />}
       </button>
       <Link to={`/series/${item.id}`}>

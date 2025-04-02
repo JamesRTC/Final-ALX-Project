@@ -6,13 +6,26 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
-import { Navigation, Pagination, Autoplay, EffectCoverflow } from "swiper/modules";
+import { Navigation, Pagination, Autoplay, EffectCoverflow } from "swiper/modules"; // Only import EffectCoverflow
 import { getYear } from "../Utils/getMovieYear";
 import { Link } from "react-router-dom";
 
 export default function HeroSlidingDeck() {
   const queryClient = useQueryClient();
   const [pageCount, setPageCount] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check screen size on load and resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // Mobile view for screens smaller than 768px
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+
+    return () => window.removeEventListener("resize", handleResize); // Cleanup listener
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,48 +59,89 @@ export default function HeroSlidingDeck() {
     );
   if (error) return <p>Error: {error.message}</p>;
 
-  return (
-    <div className="hero-slider flex justify-center items-center bg-black mt-10">
-      <Swiper
-        modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
-        navigation
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 5000 }}
-        loop={true}
-        effect="coverflow"
-        centeredSlides={true}
-        slidesPerView={2}
-        coverflowEffect={{
-          rotate: 10,
-          stretch: 0,
-          depth: 200,
-          modifier: 3,
-          slideShadows: false,
-        }}
-        grabCursor={true}
-      >
-        {data.results
-          .filter((movie) => movie.vote_average >= 7)
-          .map((movie) => (
-            <SwiperSlide key={movie.id} className="flex justify-center items-center">
-              <Link to={`/movie/${movie.id}`}>
-                <div className="relative w-[600px] h-[800px]">
-                  <img
-                    src={`https://image.tmdb.org/t/p/w780${movie.poster_path}`}
-                    alt={movie.title}
-                    className="rounded-lg shadow-lg object-cover w-full h-full"
-                  />
-                  <div className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 rounded-md py-5 px-10">
-                    <h2 className="text-lg font-bold">
-                      {movie.title} ({getYear(movie.release_date)})
-                    </h2>
-                    <p>⭐ {movie.vote_average.toFixed(1)}</p>
-                  </div>
+  // Mobile Swiper (Simple Slide Effect)
+  const mobileSwiper = (
+    <Swiper
+      modules={[Navigation, Pagination, Autoplay]} // No Effect module for mobile
+      navigation
+      pagination={{ clickable: true }}
+      autoplay={{ delay: 5000 }}
+      loop={true}
+      slidesPerView={1}
+      spaceBetween={10}
+    >
+      {data.results
+        .filter((movie) => movie.vote_average >= 7)
+        .map((movie) => (
+          <SwiperSlide key={movie.id} className="flex justify-center items-center">
+            <Link to={`/movie/${movie.id}`}>
+              <div className="relative w-[600px] h-[800px] sm:w-[450px] sm:h-[600px] md:w-[550px] md:h-[700px] max-sm:mt-0  max-sm:h-full max-sm:w-full">
+                <img
+                  src={`https://image.tmdb.org/t/p/w780${movie.poster_path}`}
+                  alt={movie.title}
+                  className="rounded-lg shadow-lg object-cover w-full h-full max-sm:rounded-none"
+                />
+                <div className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 rounded-md py-5 px-10">
+                  <h2 className="text-lg font-bold">
+                    {movie.title} ({getYear(movie.release_date)})
+                  </h2>
+                  <p>⭐ {movie.vote_average.toFixed(1)}</p>
                 </div>
-              </Link>
-            </SwiperSlide>
-          ))}
-      </Swiper>
+              </div>
+            </Link>
+          </SwiperSlide>
+        ))}
+    </Swiper>
+  );
+
+  // Desktop/Tablet Swiper (Coverflow Effect)
+  const desktopSwiper = (
+    <Swiper
+      modules={[Navigation, Pagination, Autoplay, EffectCoverflow]} // Use EffectCoverflow for desktop
+      navigation
+      pagination={{ clickable: true }}
+      autoplay={{ delay: 5000 }}
+      loop={true}
+      effect="coverflow"
+      centeredSlides={true}
+      slidesPerView={2}
+      spaceBetween={20}
+      coverflowEffect={{
+        rotate: 10,
+        stretch: 0,
+        depth: 200,
+        modifier: 3,
+        slideShadows: false,
+      }}
+      grabCursor={true}
+    >
+      {data.results
+        .filter((movie) => movie.vote_average >= 7)
+        .map((movie) => (
+          <SwiperSlide key={movie.id} className="flex justify-center items-center">
+            <Link to={`/movie/${movie.id}`}>
+              <div className="relative w-[600px] h-[800px] sm:w-[450px] sm:h-[600px] md:w-[550px] md:h-[700px]">
+                <img
+                  src={`https://image.tmdb.org/t/p/w780${movie.poster_path}`}
+                  alt={movie.title}
+                  className="rounded-lg shadow-lg object-cover w-full h-full"
+                />
+                <div className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 rounded-md py-5 px-10">
+                  <h2 className="text-lg font-bold">
+                    {movie.title} ({getYear(movie.release_date)})
+                  </h2>
+                  <p>⭐ {movie.vote_average.toFixed(1)}</p>
+                </div>
+              </div>
+            </Link>
+          </SwiperSlide>
+        ))}
+    </Swiper>
+  );
+
+  return (
+    <div className="hero-slider flex justify-center items-center bg-black mt-10 max-sm:mt-0">
+      {isMobile ? mobileSwiper : desktopSwiper} {/* Conditionally render based on screen size */}
     </div>
   );
 }

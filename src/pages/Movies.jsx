@@ -61,7 +61,6 @@ export default function Movies() {
 
   return (
     <section className="max-w-[1200px] mx-auto p-4">
-      {/* Filters Component */}
       <Filters
         initialFilters={{ genre: selectedGenre, year: selectedYear, rating: selectedRating, sortBy }}
         onSearch={handleSearch}
@@ -69,11 +68,9 @@ export default function Movies() {
 
       <h2 className="text-white font-bold text-4xl text-center mt-5">Movies</h2>
 
-      {/* Pagination */}
       {data?.total_pages ? <Pagination totalPages={data.total_pages} /> : null}
 
-      {/* Movies Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         {data.results.map((item) => (
           <MovieCard key={item.id} item={item} />
         ))}
