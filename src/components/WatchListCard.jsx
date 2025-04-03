@@ -1,55 +1,61 @@
 import { Link, useNavigate } from "react-router-dom";
-import { getYearWatchlist } from "../Utils/getMovieYear"; // Assuming this utility is working fine
+import { getYearWatchlist } from "../Utils/getMovieYear";
 import { useState, useEffect } from "react";
-import { auth } from "../Firebase/firebaseConfig"; // Keep auth for user login check
+import { auth } from "../Firebase/firebaseConfig";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 export default function WatchListCard({ item, onWatchlistChange }) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // Load watchlist from local storage on mount
   useEffect(() => {
-    const storedWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-    setIsFavorite(storedWatchlist.some((media) => media.id === item.id));
-  }, [item.id]);
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
+    const userWatchlist = storedWatchlists[user.uid] || [];
+
+    setIsFavorite(userWatchlist.some((media) => media.id === item.id));
+  }, [user, item.id]);
 
   const handleFavoriteClick = () => {
-    const user = auth.currentUser;
-
     if (!user) {
-      // Store last page and redirect to login
       localStorage.setItem("redirectAfterLogin", window.location.pathname);
       return navigate("/login");
     }
 
-    // Toggle watchlist state in local storage
-    const storedWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
+    const userWatchlist = storedWatchlists[user.uid] || [];
     let updatedWatchlist;
 
     if (isFavorite) {
-      updatedWatchlist = storedWatchlist.filter((media) => media.id !== item.id);
+      updatedWatchlist = userWatchlist.filter((media) => media.id !== item.id);
     } else {
-      updatedWatchlist = [...storedWatchlist, item];
+      updatedWatchlist = [...userWatchlist, item];
     }
 
-    setIsFavorite(!isFavorite);
-    localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
+    storedWatchlists[user.uid] = updatedWatchlist;
+    localStorage.setItem("watchlist", JSON.stringify(storedWatchlists));
 
-    // Trigger parent component to update
+    setIsFavorite(!isFavorite);
+
     if (onWatchlistChange) {
-      onWatchlistChange(updatedWatchlist); // Notify parent to update the watchlist
+      onWatchlistChange(updatedWatchlist);
     }
   };
 
-  // Determine if it's a movie or a series based on available date fields
   const isMovie = item.release_date && !item.first_air_date;
-  //   const isSeries = item.first_air_date && !item.release_date;
-
   const imageUrl = item.poster_path
     ? `https://image.tmdb.org/t/p/w342${item.poster_path}`
     : "/assets/image_not_available.png";
-
   const displayTitle = isMovie ? item.title : item.original_name;
 
   return (

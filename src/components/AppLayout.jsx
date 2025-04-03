@@ -12,7 +12,6 @@ export default function AppLayout() {
       <NavBar />
       <MobileNavBar isOpen={isMobileMenuOpen} setIsOpen={setIsMobileMenuOpen} />
 
-      {/* Hide content when mobile menu is open */}
       {!isMobileMenuOpen && (
         <>
           <section className="flex-1">

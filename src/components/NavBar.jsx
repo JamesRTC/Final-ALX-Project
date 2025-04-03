@@ -1,20 +1,19 @@
 import { Link, NavLink } from "react-router-dom";
 import { GiFilmSpool } from "react-icons/gi";
 import { IoIosSearch } from "react-icons/io";
-import { FaUserCircle } from "react-icons/fa"; // Importing user icon
+import { FaUserCircle } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import SearchBar from "./SearchBar";
 import useSearch from "../Hooks/useSearch";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion"; // Importing framer-motion
+import { motion } from "framer-motion";
 
 export default function NavBar() {
   const { query, handleSearchChange } = useSearch();
   const { user, logout } = useAuth();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCompact, setIsCompact] = useState(window.innerWidth <= 1250);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); // State for user dropdown menu
-
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   useEffect(() => {
     const handleResize = () => {
       setIsCompact(window.innerWidth <= 1250);

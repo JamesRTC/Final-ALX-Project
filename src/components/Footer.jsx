@@ -6,7 +6,6 @@ export default function Footer() {
       <div className="container mx-auto flex flex-col md:flex-row justify-center items-center px-4">
         <p className="text-lg md:mr-4">WatchIT &copy; 2025</p>
 
-        {/* Navigation Links with Separators */}
         <div className="flex flex-wrap items-center gap-4 mt-2 md:mt-0">
           <Link to="/movies" className="hover:underline">
             Browse Movies

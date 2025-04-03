@@ -1,19 +1,40 @@
 import { useState, useEffect } from "react";
+import { auth } from "../Firebase/firebaseConfig";
 import WatchListCard from "../components/WatchListCard";
 
 export default function WatchingList() {
   const [watchlistItems, setWatchlistItems] = useState([]);
+  const [user, setUser] = useState(null);
 
-  // Load the watchlist from local storage on mount
   useEffect(() => {
-    const storedWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-    setWatchlistItems(storedWatchlist);
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  // Handle watchlist changes (items added or removed)
+  useEffect(() => {
+    if (user) {
+      const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
+      const userWatchlist = storedWatchlists[user.uid] || [];
+      setWatchlistItems(userWatchlist);
+    }
+  }, [user]);
+
   const handleWatchlistChange = (updatedWatchlist) => {
-    setWatchlistItems(updatedWatchlist); // Update the watchlist state
+    setWatchlistItems(updatedWatchlist);
+
+    if (user) {
+      const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
+      storedWatchlists[user.uid] = updatedWatchlist;
+      localStorage.setItem("watchlist", JSON.stringify(storedWatchlists));
+    }
   };
+
+  if (!user) {
+    return <p className="text-center text-gray-500">Please log in to view your watchlist.</p>;
+  }
 
   return (
     <>

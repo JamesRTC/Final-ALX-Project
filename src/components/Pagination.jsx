@@ -5,14 +5,13 @@ export default function Pagination({ totalPages }) {
   const page = Number(searchParams.get("page")) || 1;
 
   function goToPage(newPage) {
-    // Preserve existing filters and only update the page
     const updatedParams = new URLSearchParams(searchParams);
     updatedParams.set("page", newPage);
     setSearchParams(updatedParams);
   }
 
   return (
-    <div className="flex justify-center items-center gap-4 p-4 mb-10 mt-5 max-sm:mb-5 max-sm:mt-2">
+    <div className="flex justify-center items-center gap-4 p-4 mb-10 mt-5 max-sm:mb-5 max-sm:mt-2 text-white">
       <button
         className="bg-blue-400 hover:bg-blue-500 delay-150 px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:cursor-pointer"
         onClick={() => goToPage(page - 1)}

@@ -1,40 +1,45 @@
 import { Link, useNavigate } from "react-router-dom";
 import { getYearTrending } from "../Utils/getMovieYear";
 import { useState, useEffect } from "react";
-import { auth } from "../Firebase/firebaseConfig"; // Keep auth for user login check
+import { auth } from "../Firebase/firebaseConfig";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 export default function TrendingMediaCard({ item }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
-  // Load watchlist from local storage on mount
   useEffect(() => {
-    const storedWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-    setIsFavorite(storedWatchlist.some((media) => media.id === item.id));
+    const user = auth.currentUser;
+    if (!user) return; // Skip if no user is logged in
+
+    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
+    const userWatchlist = storedWatchlists[user.uid] || [];
+
+    setIsFavorite(userWatchlist.some((media) => media.id === item.id));
   }, [item.id]);
 
   const handleFavoriteClick = () => {
     const user = auth.currentUser;
 
     if (!user) {
-      // Store last page and redirect to login
       localStorage.setItem("redirectAfterLogin", window.location.pathname);
       return navigate("/login");
     }
 
-    // Toggle watchlist state in local storage
-    const storedWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-    let updatedWatchlist;
+    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
+    const userWatchlist = storedWatchlists[user.uid] || [];
 
+    let updatedWatchlist;
     if (isFavorite) {
-      updatedWatchlist = storedWatchlist.filter((media) => media.id !== item.id);
+      updatedWatchlist = userWatchlist.filter((media) => media.id !== item.id);
     } else {
-      updatedWatchlist = [...storedWatchlist, item];
+      updatedWatchlist = [...userWatchlist, item];
     }
 
+    storedWatchlists[user.uid] = updatedWatchlist;
+    localStorage.setItem("watchlist", JSON.stringify(storedWatchlists));
+
     setIsFavorite(!isFavorite);
-    localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
   };
 
   const imageUrl = item.poster_path

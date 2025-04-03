@@ -78,7 +78,6 @@ export default function Filters({ initialFilters, onSearch }) {
         <option value="release_date.desc">Newest First</option>
       </select>
 
-      {/* Centered buttons on large screens */}
       <div className="lg:col-span-4 flex justify-center space-x-4 col-span-2 sm:col-span-1">
         <button
           onClick={() => onSearch(filters)}

@@ -31,7 +31,6 @@ export default function MobileNavBar({ isOpen, setIsOpen }) {
 
   return (
     <>
-      {/* Mobile Nav */}
       <nav className="md:hidden w-full bg-gray-900 text-white p-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2 text-xl">
           <GiFilmSpool size="30px" />
@@ -41,7 +40,6 @@ export default function MobileNavBar({ isOpen, setIsOpen }) {
         <MenuToggle isOpen={isOpen} toggleMenu={toggleMenu} />
       </nav>
 
-      {/* Animated Search Bar */}
       {isSearchOpen && (
         <motion.div
           initial={{ y: "-100%" }}
@@ -53,7 +51,6 @@ export default function MobileNavBar({ isOpen, setIsOpen }) {
         </motion.div>
       )}
 
-      {/* Slide-in Menu */}
       <motion.div
         initial={{ y: "-100%" }}
         animate={{ y: isOpen ? 0 : "-100%" }}

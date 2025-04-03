@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
-import { Navigation, Pagination, Autoplay, EffectCoverflow } from "swiper/modules"; // Only import EffectCoverflow
+import { Navigation, Pagination, Autoplay, EffectCoverflow } from "swiper/modules";
 import { getYear } from "../Utils/getMovieYear";
 import { Link } from "react-router-dom";
 
@@ -15,16 +15,15 @@ export default function HeroSlidingDeck() {
   const [pageCount, setPageCount] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check screen size on load and resize
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Mobile view for screens smaller than 768px
+      setIsMobile(window.innerWidth < 768);
     };
 
     window.addEventListener("resize", handleResize);
     handleResize(); // Initial check
 
-    return () => window.removeEventListener("resize", handleResize); // Cleanup listener
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -59,10 +58,9 @@ export default function HeroSlidingDeck() {
     );
   if (error) return <p>Error: {error.message}</p>;
 
-  // Mobile Swiper (Simple Slide Effect)
   const mobileSwiper = (
     <Swiper
-      modules={[Navigation, Pagination, Autoplay]} // No Effect module for mobile
+      modules={[Navigation, Pagination, Autoplay]}
       navigation
       pagination={{ clickable: true }}
       autoplay={{ delay: 5000 }}
@@ -94,10 +92,9 @@ export default function HeroSlidingDeck() {
     </Swiper>
   );
 
-  // Desktop/Tablet Swiper (Coverflow Effect)
   const desktopSwiper = (
     <Swiper
-      modules={[Navigation, Pagination, Autoplay, EffectCoverflow]} // Use EffectCoverflow for desktop
+      modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
       navigation
       pagination={{ clickable: true }}
       autoplay={{ delay: 5000 }}
@@ -141,7 +138,7 @@ export default function HeroSlidingDeck() {
 
   return (
     <div className="hero-slider flex justify-center items-center bg-black mt-10 max-sm:mt-0">
-      {isMobile ? mobileSwiper : desktopSwiper} {/* Conditionally render based on screen size */}
+      {isMobile ? mobileSwiper : desktopSwiper}
     </div>
   );
 }

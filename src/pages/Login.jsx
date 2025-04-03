@@ -10,8 +10,7 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get the previous path the user tried to visit from the location state
-  const from = location.state?.from || "/"; // Default to /movies if undefined
+  const from = location.state?.from || "/";
 
   console.log(location.state?.from);
   const handleLogin = async (e) => {
@@ -20,7 +19,7 @@ export default function Login() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate(from, { replace: true }); // Redirect back to the page they came from
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err.message);
     }
@@ -29,7 +28,7 @@ export default function Login() {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      navigate(from, { replace: true }); // Redirect back to the page they came from
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err.message);
     }
