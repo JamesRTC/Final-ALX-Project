@@ -14,3 +14,7 @@ export function getYearWatchlist(item) {
     return item.first_air_date.split("-")[0];
   }
 }
+
+export function getCurrentYear() {
+  return new Date().getFullYear();
+}

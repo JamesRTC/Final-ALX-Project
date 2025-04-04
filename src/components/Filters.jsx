@@ -19,7 +19,7 @@ export default function Filters({ initialFilters, onSearch }) {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 bg-gray-700 p-6 rounded-lg shadow-md">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 bg-gray-700 p-6 rounded-lg shadow-md max-sm:text-sm">
       <select
         name="genre"
         value={filters.genre}

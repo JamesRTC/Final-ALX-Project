@@ -21,7 +21,7 @@ export default function HeroSlidingDeck() {
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // Initial check
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -79,11 +79,11 @@ export default function HeroSlidingDeck() {
                   alt={movie.title}
                   className="rounded-lg shadow-lg object-cover w-full h-full max-sm:rounded-none"
                 />
-                <div className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 rounded-md py-5 px-10">
-                  <h2 className="text-lg font-bold">
+                <div className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 rounded-md py-5 px-10  max-sm:px-5 max-sm-py-2">
+                  <h2 className="text-lg font-bold max-sm:text-sm">
                     {movie.title} ({getYear(movie.release_date)})
                   </h2>
-                  <p>⭐ {movie.vote_average.toFixed(1)}</p>
+                  <p className="max-sm:text-sm">⭐ {movie.vote_average.toFixed(1)}</p>
                 </div>
               </div>
             </Link>
@@ -137,7 +137,7 @@ export default function HeroSlidingDeck() {
   );
 
   return (
-    <div className="hero-slider flex justify-center items-center bg-black mt-10 max-sm:mt-0">
+    <div className="hero-slider flex justify-center items-center bg-black mt-10 max-sm:mt-0 max-sm:mb-0">
       {isMobile ? mobileSwiper : desktopSwiper}
     </div>
   );

@@ -5,6 +5,7 @@ import SeriesCard from "../components/SeriesCard";
 import { useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import Filters from "../components/Filters";
+import { auth } from "../Firebase/firebaseConfig";
 
 export default function Series() {
   const queryClient = useQueryClient();
@@ -17,12 +18,19 @@ export default function Series() {
   const sortBy = searchParams.get("sort_by") || "popularity.desc";
 
   const [genres, setGenres] = useState([]);
+  const [isWatchlistEmpty, setIsWatchlistEmpty] = useState(true);
   const [filters, setFilters] = useState({
     genre: selectedGenre,
     year: selectedYear,
     rating: selectedRating,
     sortBy: sortBy,
   });
+
+  useEffect(() => {
+    if (!searchParams.has("page")) {
+      setSearchParams({ page: "1" }, { replace: true });
+    }
+  }, []);
 
   useEffect(() => {
     fetchGenres().then((data) => setGenres(data.genres));
@@ -37,6 +45,20 @@ export default function Series() {
     });
   }, [selectedGenre, selectedYear, selectedRating, sortBy]);
 
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["series", page + 1, selectedGenre, selectedYear, selectedRating, sortBy],
+      queryFn: () =>
+        heroTVShows({
+          page: page + 1,
+          genre: selectedGenre,
+          year: selectedYear,
+          rating: selectedRating,
+          sortBy,
+        }),
+    });
+  }, [page, queryClient, selectedGenre, selectedYear, selectedRating, sortBy]);
+
   const handleSearch = (newFilters) => {
     setSearchParams({
       page: "1",
@@ -47,27 +69,25 @@ export default function Series() {
     });
   };
 
+  const checkWatchlistEmpty = () => {
+    const user = auth.currentUser;
+    if (!user) return true;
+
+    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
+    const userWatchlist = storedWatchlists[user.uid] || [];
+
+    return userWatchlist.length === 0;
+  };
+
+  useEffect(() => {
+    setIsWatchlistEmpty(checkWatchlistEmpty());
+  }, []);
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["series", page, selectedGenre, selectedYear, selectedRating, sortBy],
     queryFn: () => heroTVShows({ page, genre: selectedGenre, year: selectedYear, rating: selectedRating, sortBy }),
     keepPreviousData: true,
   });
-
-  useEffect(() => {
-    if (data && page < data.total_pages) {
-      queryClient.prefetchQuery({
-        queryKey: ["series", page + 1, selectedGenre, selectedYear, selectedRating, sortBy],
-        queryFn: () =>
-          heroTVShows({
-            page: page + 1,
-            genre: selectedGenre,
-            year: selectedYear,
-            rating: selectedRating,
-            sortBy,
-          }),
-      });
-    }
-  }, [page, queryClient, data, selectedGenre, selectedYear, selectedRating, sortBy]);
 
   if (isLoading)
     return (
@@ -81,11 +101,16 @@ export default function Series() {
   return (
     <section className="max-w-[1200px] mx-auto p-4">
       <Filters genres={genres} initialFilters={filters} onSearch={handleSearch} />
-      <h2 className="text-white font-bold text-4xl text-center mt-5">TV Series</h2>
+      <h2 className="text-white font-bold text-4xl text-center mt-5 max-sm:text-2xl">TV Series</h2>
       {data?.total_pages ? <Pagination totalPages={data.total_pages} /> : null}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         {data.results.map((item) => (
-          <SeriesCard key={item.id} item={item} />
+          <SeriesCard
+            key={item.id}
+            item={item}
+            isWatchlistEmpty={isWatchlistEmpty}
+            setIsWatchlistEmpty={setIsWatchlistEmpty}
+          />
         ))}
       </div>
       {data?.total_pages ? <Pagination totalPages={data.total_pages} /> : null}

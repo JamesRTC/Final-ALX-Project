@@ -4,13 +4,13 @@ import { useState, useEffect } from "react";
 import { auth } from "../Firebase/firebaseConfig";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
-export default function MovieCard({ item }) {
+export default function MovieCard({ item, isWatchlistEmpty, setIsWatchlistEmpty }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = auth.currentUser;
-    if (!user) return; // No user logged in, skip checking
+    if (!user) return;
 
     const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
     const userWatchlist = storedWatchlists[user.uid] || [];
@@ -40,16 +40,24 @@ export default function MovieCard({ item }) {
     localStorage.setItem("watchlist", JSON.stringify(storedWatchlists));
 
     setIsFavorite(!isFavorite);
+    setIsWatchlistEmpty(updatedWatchlist.length === 0);
   };
 
   return (
     <div className="bg-gray-300 p-2 rounded-lg shadow-md relative">
       <button
-        className="absolute top-6 right-6 max-sm:top-3 max-sm:right-3 p-2 bg-black/50 rounded-full"
+        className="absolute top-6 right-6 max-sm:top-3 max-sm:right-3 p-2 bg-black/50 rounded-full group"
         onClick={handleFavoriteClick}
       >
         {isFavorite ? <AiFillHeart color="red" size={20} /> : <AiOutlineHeart color="white" size={20} />}
+
+        {isWatchlistEmpty && (
+          <span className="absolute min-w-[100px] bottom-[-40px] left-1/2 -translate-x-1/2 bg-gray-700 text-white text-xs px-1 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+            {isFavorite ? "Remove from Watchlist" : "Add to Watchlist"}
+          </span>
+        )}
       </button>
+
       <Link to={`/movie/${item.id}`}>
         <img
           src={
@@ -62,7 +70,7 @@ export default function MovieCard({ item }) {
           height="513"
         />
         <div className="flex justify-between mt-2 text-sm items-center">
-          <p className="font-bold">{item.original_title}</p>
+          <p className="font-bold max-w-[200px] max-sm:max-w-[100px]">{item.original_title}</p>
           <p>⭐ {item.vote_average ? item.vote_average.toFixed(1) : "N/A"}</p>
         </div>
         <div className="flex justify-between items-center text-xs mt-2">

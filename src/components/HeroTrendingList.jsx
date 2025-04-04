@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { heroTrendingList } from "../API/api";
 import TrendingMediaCard from "./TrendingMediaCard";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { auth } from "../Firebase/firebaseConfig";
 
 export default function HeroTrendingList() {
   const navigate = useNavigate();
@@ -11,8 +13,20 @@ export default function HeroTrendingList() {
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 6,
     refetchOnWindowFocus: false,
-    keepPrekeepPreviousData: true,
+    keepPreviousData: true,
   });
+
+  const [isWatchlistEmpty, setIsWatchlistEmpty] = useState(true);
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
+    const userWatchlist = storedWatchlists[user.uid] || [];
+
+    setIsWatchlistEmpty(userWatchlist.length === 0);
+  }, []);
 
   if (isLoading)
     return (
@@ -24,15 +38,20 @@ export default function HeroTrendingList() {
 
   return (
     <section className="bg-[#F7EBDF]">
-      <div className="flex justify-between items-center px-4 pt-4 mt-10 ">
-        <h2 className="text-xl font-bold text-black">Trending</h2>
+      <div className="flex justify-between items-center px-4 pt-4 mt-10 max-sm:mt-0">
+        <h2 className="text-xl font-bold text-black max-sm:uppercase max-sm:text-sm">Trending</h2>
         <p className="text-sm text-blue-600 cursor-pointer hover:underline" onClick={() => navigate("/trending")}>
           Browse all
         </p>
       </div>
       <div className="text-black grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {data.results.slice(0, 8).map((item) => (
-          <TrendingMediaCard item={item} key={item.id} />
+          <TrendingMediaCard
+            item={item}
+            key={item.id}
+            isWatchlistEmpty={isWatchlistEmpty}
+            setIsWatchlistEmpty={setIsWatchlistEmpty}
+          />
         ))}
       </div>
     </section>

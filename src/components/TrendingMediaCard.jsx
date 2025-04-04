@@ -4,13 +4,13 @@ import { useState, useEffect } from "react";
 import { auth } from "../Firebase/firebaseConfig";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
-export default function TrendingMediaCard({ item }) {
+export default function TrendingMediaCard({ item, isWatchlistEmpty, setIsWatchlistEmpty }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = auth.currentUser;
-    if (!user) return; // Skip if no user is logged in
+    if (!user) return;
 
     const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
     const userWatchlist = storedWatchlists[user.uid] || [];
@@ -40,6 +40,9 @@ export default function TrendingMediaCard({ item }) {
     localStorage.setItem("watchlist", JSON.stringify(storedWatchlists));
 
     setIsFavorite(!isFavorite);
+
+    // Update `isWatchlistEmpty` globally
+    setIsWatchlistEmpty(updatedWatchlist.length === 0);
   };
 
   const imageUrl = item.poster_path
@@ -49,11 +52,18 @@ export default function TrendingMediaCard({ item }) {
   return (
     <div className="bg-gray-300 p-2 rounded-lg shadow-md relative">
       <button
-        className="absolute top-6 right-6 max-sm:top-3 max-sm:right-3 p-2 bg-black/50 rounded-full"
+        className="absolute top-6 right-6 max-sm:top-3 max-sm:right-3 p-2 bg-black/50 rounded-full group"
         onClick={handleFavoriteClick}
       >
         {isFavorite ? <AiFillHeart color="red" size={20} /> : <AiOutlineHeart color="white" size={20} />}
+
+        {isWatchlistEmpty && (
+          <span className="absolute min-w-[100px] bottom-[-40px] left-1/2 -translate-x-1/2 bg-gray-700 text-white text-xs px-1 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+            {isFavorite ? "Remove from Watchlist" : "Add to Watchlist"}
+          </span>
+        )}
       </button>
+
       <Link to={item.media_type === "movie" ? `/movie/${item.id}` : `/series/${item.id}`}>
         <img
           src={imageUrl}

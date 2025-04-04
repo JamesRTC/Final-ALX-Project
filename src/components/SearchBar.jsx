@@ -7,7 +7,7 @@ export default function SearchBar({ query, handleSearchChange }) {
       <IoIosSearch color="black" size="16px" />
       <input
         type="text"
-        placeholder="e.g. The last of us"
+        placeholder="Search movies and series"
         aria-label="Search movies and series"
         className="bg-white flex-1 h-full px-2 text-black text-sm placeholder:text-sm focus:outline-none leading-[1]"
         value={query}

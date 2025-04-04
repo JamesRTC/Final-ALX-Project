@@ -39,7 +39,7 @@ export default function UpcomingMovies() {
 
   return (
     <section className="max-w-[1200px] mx-auto">
-      <h2 className="text-white font-bold text-4xl text-center mt-5">Upcoming Movies</h2>
+      <h2 className="text-white font-bold text-4xl text-center mt-5 max-sm:text-2xl">Upcoming Movies</h2>
       {data?.total_pages ? <Pagination totalPages={data.total_pages} /> : null}
       <div className="text-black grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {data.results.map((item) => (

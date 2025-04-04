@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 export default function DetailsLayout({ details }) {
   const navigate = useNavigate();
   return (
-    <div className="text-white min-h-screen">
+    <div className="text-white min-h-screen ">
       <div
         className="relative w-full h-[500px] bg-cover bg-top-[30px] max-sm:hidden"
         style={{
@@ -18,7 +18,7 @@ export default function DetailsLayout({ details }) {
           onClick={() => navigate(-1)}
           className="absolute flex p-6 items-center gap-2 font-bold hover:text-blue-500 delay-150 cursor-pointer"
         >
-          <IoIosArrowRoundBack /> <span>Back</span>
+          <IoIosArrowRoundBack /> <span>back</span>
         </button>
       </div>
       <div className="max-w-4xl mx-auto p-6">
@@ -27,17 +27,17 @@ export default function DetailsLayout({ details }) {
             onClick={() => navigate(-1)}
             className=" sm:hidden flex items-center gap-2 font-bold hover:text-blue-500 delay-150 cursor-pointer"
           >
-            <IoIosArrowRoundBack /> <span>Back</span>
+            <IoIosArrowRoundBack /> <span>back</span>
           </button>
           <img
             src={`https://image.tmdb.org/t/p/w342${details.poster_path}`}
             alt={details.title || details.name}
-            className="w-[250px] rounded-lg shadow-lg max-sm:w-full"
+            className="w-[250px] rounded-lg shadow-lg max-sm:rounded-none max-sm:w-full"
           />
           <div className="flex-1 space-y-3">
             <p className="text-gray-300 italic">{details.tagline}</p>
-            <p className="text-gray-400">{details.overview}</p>
-            <div className="space-y-1">
+            <p className="text-gray-400 leading-6">{details.overview}</p>
+            <div className="space-y-3">
               <p>
                 <span className="font-bold">Genres:</span> {details.genres.map((g) => g.name).join(", ")}
               </p>

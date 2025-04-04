@@ -76,7 +76,7 @@ export default function SearchResults() {
 
   return (
     <div className="max-w-[1200px] mx-auto mt-5 max-sm:mx-5">
-      <h2 className="text-white text-2xl mb-4">Search Results for "{query}"</h2>
+      <h2 className="text-white text-2xl mb-4 max-sm:text-sm">Search Results for "{query}"</h2>
 
       {results.length > 0 ? (
         <>
