@@ -14,6 +14,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ProtectedRoute from "../components/ProtectedRoute";
 import WatchList from "../pages/WatchList";
+import NotFound from "../pages/NotFound";
 
 export default function AppRouter() {
   return (
@@ -35,6 +36,7 @@ export default function AppRouter() {
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

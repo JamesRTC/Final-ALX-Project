@@ -39,15 +39,19 @@ export default function WatchingList() {
   return (
     <>
       <h2 className="text-white font-bold text-4xl text-center my-5 max-sm:text-2xl">My Watch List</h2>
-      <div className="text-black grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 max-w-[1200px] mx-auto">
-        {watchlistItems.length > 0 ? (
-          watchlistItems.map((item) => (
+
+      {watchlistItems.length > 0 ? (
+        <div className="text-black grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 max-w-[1200px] mx-auto">
+          {watchlistItems.map((item) => (
             <WatchListCard key={item.id} item={item} onWatchlistChange={handleWatchlistChange} />
-          ))
-        ) : (
-          <p className="text-center text-gray-500">Your watchlist is empty.</p>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center min-h-screen w-full px-4">
+          <p className="text-center text-gray-500 text-lg mb-4">Your watchlist is empty.</p>
+          <img src="/assets/sad4.png" alt="Sad Face" className="w-64 h-auto" />
+        </div>
+      )}
     </>
   );
 }
