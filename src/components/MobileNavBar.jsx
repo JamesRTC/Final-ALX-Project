@@ -3,7 +3,7 @@ import { GiFilmSpool } from "react-icons/gi";
 import { motion } from "framer-motion";
 import SearchBar from "./SearchBar";
 import useSearch from "../Hooks/useSearch";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import { useEffect, useState } from "react";
 import MenuToggle from "./ToggleMenu";
 import SearchToggle from "./ToggleSearch";
