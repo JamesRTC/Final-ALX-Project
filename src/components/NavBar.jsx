@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import { GiFilmSpool } from "react-icons/gi";
 import { IoIosSearch } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import SearchBar from "./SearchBar";
 import useSearch from "../Hooks/useSearch";
 import { useState, useEffect } from "react";
