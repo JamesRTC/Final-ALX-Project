@@ -101,7 +101,7 @@ export default function Series() {
   return (
     <section className="max-w-[1200px] mx-auto p-4">
       <Filters genres={genres} initialFilters={filters} onSearch={handleSearch} />
-      <h2 className="text-white font-bold text-4xl text-center mt-5 max-sm:text-2xl">TV Series</h2>
+      <h2 className="text-white font-bold text-4xl text-center mt-5 max-sm:text-2xl">TV Shows</h2>
       {data?.total_pages ? <Pagination totalPages={data.total_pages} /> : null}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         {data.results.map((item) => (

@@ -11,7 +11,6 @@ export async function heroSlidingDeckMovies({ page = 1, genre, year, rating, sor
   if (rating) url.searchParams.append("vote_average.gte", rating);
   if (sortBy) url.searchParams.append("sort_by", sortBy);
 
-  // Handle grouped year ranges
   if (year) {
     if (year === "2020-now") {
       url.searchParams.append("primary_release_date.gte", "2020-01-01");
@@ -41,7 +40,6 @@ export async function heroTVShows({ page = 1, genre, year, rating, sortBy }) {
   if (rating) url.searchParams.append("vote_average.gte", rating);
   if (sortBy) url.searchParams.append("sort_by", sortBy);
 
-  // Handle grouped year ranges
   if (year) {
     if (year === "2020-now") {
       url.searchParams.append("first_air_date.gte", "2020-01-01");

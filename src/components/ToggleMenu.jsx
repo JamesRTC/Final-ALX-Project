@@ -8,14 +8,3 @@ export default function MenuToggle({ isOpen, toggleMenu }) {
     </motion.button>
   );
 }
-
-// SearchToggle.jsx - Handles search bar toggle and animation
-import { IoIosSearch } from "react-icons/io";
-
-export function SearchToggle({ isSearchOpen, toggleSearch }) {
-  return (
-    <button onClick={toggleSearch} className="relative p-2">
-      <IoIosSearch size={24} />
-    </button>
-  );
-}

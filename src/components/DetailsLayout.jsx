@@ -37,7 +37,7 @@ export default function DetailsLayout({ details }) {
           <div className="flex-1 space-y-3">
             <p className="text-gray-300 italic">{details.tagline}</p>
             <p className="text-gray-400 leading-6">{details.overview}</p>
-            <div className="space-y-3">
+            <div className="space-y-2">
               <p>
                 <span className="font-bold">Genres:</span> {details.genres.map((g) => g.name).join(", ")}
               </p>

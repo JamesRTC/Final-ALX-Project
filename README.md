@@ -1,56 +1,106 @@
-###Just Watch
-Just Watch is a React-based web application that allows users to explore movies and TV series using The Movie Database (TMDb) API. The app provides features like search, pagination, authentication, and state management for a seamless browsing experience.
+# 🎬 WatchIT
 
-##Features
-Home Page – Displays trending and featured content.
+**WatchIT** is a responsive React-based web application that allows users to explore, search, and browse movies and TV shows using data from [The Movie Database (TMDb)](https://www.themoviedb.org/). It's fast, clean, and user-friendly.
 
-Movies Page – Shows a list of movies.
+---
 
-Series Page – Displays popular TV series.
+## Features
 
-Popular Page – Highlights trending movies and shows.
+### 1. Home Page
 
-Search Functionality – Users can search for movies and TV shows.
+- Displays handpicked top-rated TV shows, top-rated movies, trending movies and TV Shows, and upcoming movies.
 
-Pagination – Content is loaded in pages for better navigation.
+### 2. Search
 
-Authentication – Users can register and log in.
+- Real-time search for both movies and TV shows.
+- Clean input design with search icon.
+- Optimized for all screen sizes.
 
-State Management – Uses Zustand and Context API for global state.
+### 3. Movies Page
 
-Data Fetching – Uses React Query to efficiently fetch data from the TMDb API.
+- Shows a paginated grid of popular movies.
+- Responsive layout and smooth loading.
 
-##Technologies Used
-React – For building the UI.
+### 4. Series Page
 
-React Router – For navigation and routing.
+- Lists trending or popular TV shows with visual cards.
+- Fetches data dynamically via TMDb.
 
-TMDb API – For fetching movie and TV show data.
+### 5. Popular Page
 
-React Query – For efficient API data fetching and caching.
+- Lets users explore trending content featured on the homepage.
 
-Zustand & Context API – For global state management.
+### 6. Authentication
 
-Tailwind CSS – For styling and layout.
+- Users can Register and login to add movies and TV shows to their personal watchlist.
 
-##Folder Structure
+### 7. Responsive Design
 
-just-watch/
-│── src/
-│ ├── components/ # Reusable UI components
-│ ├── pages/ # Page components (Home, Movies, Series, Popular)
-│ ├── context/ # Context API for global state
-│ ├── store/ # Zustand store
-│ ├── hooks/ # Custom React hooks
-│ ├── utils/ # Helper functions
-│ ├── AppRouter.js # Application routing
-│ ├── App.js # Main app component
-│ ├── index.js # Entry point
-│── public/ # Static files
-│── .env # Environment variables
-│── package.json # Dependencies and scripts
-API Usage
-The app fetches movie and series data from TMDb API. You need to create an account on The Movie Database and get an API key. The API key should be stored in your .env file as shown above.
+- Mobile-first layout.
+- Uses the **Nunito** font for a modern, readable feel.
+- Looks great on phones, tablets, and desktops.
 
-##License
-This project is open-source and available under the MIT License.
+---
+
+## 8. Technologies Used
+
+- **React** – Core UI framework.
+- **React Router** – Page navigation and dynamic routing.
+- **TMDb API** – Fetching movie and TV show data.
+- **React Query** – Smart data fetching and caching.
+- **Context API** – Global state management.
+- **Tailwind CSS** – Utility-first styling.
+- **Firebase** – Used for authentication.
+- **Saira Condensed Font** – For clean and modern typography.
+
+## 9. Project Structure
+
+watchit/
+├── public/ # Static files
+├── src/
+│ ├── components/ # Reusable UI parts like cards and search bar
+│ ├── pages/ # Pages like Home, Movies, Series, Popular
+│ ├── context/ # Global context (e.g., authentication)
+│ ├── hooks/ # Custom hooks
+│ ├── utils/ # Helper functions (e.g., date formatting)
+│ ├── API/ # TMDb fetch functions
+│ ├── AppRouter.js # App routing
+│ ├── App.js # Main app logic
+│ └── index.js # Entry point
+├── .env # API keys
+└── package.json # Dependencies and scripts
+
+## Screenshots
+
+### Search Bar
+
+![Desktop-Search](public/assets/screenshots/searchbar-large-screens.PNG)
+![Mobile-Search](public/assets/screenshots/searchbar-mobile-screens.PNG)
+
+### Movies Page
+
+![Movies-Page](public/assets/screenshots/movie-page.PNG)
+
+### Series Page
+
+![Series-Page](public/assets/screenshots/tvshows.PNG)
+
+### Register Page
+
+![Register-Page](public/assets/screenshots/register.PNG)
+
+### Login Page
+
+![Login-Page](public/assets/screenshots/login.PNG)
+
+### Watchlist Page
+
+![Watchlist-Page](public/assets/screenshots/watchlist.PNG)
+
+## 10. GitHub Repository
+
+The source code for **WatchIT** is hosted on GitHub. You can access it, contribute to the project, and follow the development process through the repository link below.
+
+👉 [GitHub Repository - WatchIT](https://github.com/JamesRTC/Final-ALX-Project.git)
+
+Feel free to open issues, submit pull requests, or leave suggestions for improvements. All contributions are welcome!

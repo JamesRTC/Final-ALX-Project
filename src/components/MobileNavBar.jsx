@@ -1,4 +1,3 @@
-// MobileNavBar.jsx - Uses extracted components for better structure
 import { Link, NavLink } from "react-router-dom";
 import { GiFilmSpool } from "react-icons/gi";
 import { motion } from "framer-motion";

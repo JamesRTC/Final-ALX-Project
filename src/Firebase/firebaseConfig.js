@@ -22,14 +22,14 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const db = getFirestore(app);
 
-setPersistence(auth, browserLocalPersistence)
-  .then(() => console.log("🔥 Auth persistence enabled"))
-  .catch((error) => console.error("Error setting persistence:", error));
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  return null;
+});
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    console.log("User is logged in:", user);
+    return null;
   } else {
-    console.log(" User is logged out");
+    return null;
   }
 });

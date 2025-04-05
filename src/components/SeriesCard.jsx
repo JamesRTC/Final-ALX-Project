@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { getYearTrending } from "../Utils/getMovieYear";
+import { getYearWatchlist } from "../Utils/getMovieYear";
 import { useState, useEffect } from "react";
 import { auth } from "../Firebase/firebaseConfig";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
@@ -75,7 +75,7 @@ export default function SeriesCard({ item, isWatchlistEmpty, setIsWatchlistEmpty
           <p className="flex-nowrap">⭐ {item.vote_average?.toFixed(1)}</p>
         </div>
         <div className="flex justify-between items-center text-xs mt-2">
-          <p className="text-gray-600">{getYearTrending(item)}</p>
+          <p className="text-gray-600">{getYearWatchlist(item)}</p>
           <p className="px-2 py-1 bg-blue-500 text-white rounded-md flex items-center justify-center">Series</p>
         </div>
       </Link>
