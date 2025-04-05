@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppLayout from "../components/AppLayout";
-import Home from "../Pages/Home";
-import Movies from "../Pages/Movies";
-import Series from "../Pages/Series";
+import Home from "../pages/Home";
+import Movies from "../pages/Movies";
+import Series from "../pages/Series";
 import Trending from "../pages/Trending";
 import UpcomingMovies from "../pages/UpcomingMovies";
 import PopularSeries from "../pages/PopularSeries";
