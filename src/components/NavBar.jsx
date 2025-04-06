@@ -86,10 +86,9 @@ export default function NavBar() {
           </NavLink>
         </li>
 
-        {/* User Icon / User Menu */}
         <div className="relative">
           {user ? (
-            <button onClick={toggleUserMenu} className="p-2">
+            <button onClick={toggleUserMenu} className="p-2 hover:cursor-pointer">
               <FaUserCircle size={30} />
             </button>
           ) : (
