@@ -31,7 +31,7 @@ export default function MobileNavBar({ isOpen, setIsOpen }) {
 
   return (
     <>
-      <nav className="md:hidden w-full bg-gray-900 text-white p-4 flex justify-between items-center">
+      <nav className="md:hidden w-full bg-gray-900 text-white p-2 flex justify-between items-center">
         <MenuToggle isOpen={isOpen} toggleMenu={toggleMenu} />
         <Link to="/" className="flex items-center gap-2 text-xl">
           <GiFilmSpool size="30px" />
@@ -42,7 +42,7 @@ export default function MobileNavBar({ isOpen, setIsOpen }) {
           <div className="relative">
             {user ? (
               <button onClick={toggleUserMenu} className="p-2 hover:cursor-pointer">
-                <FaUserCircle size={30} />
+                <FaUserCircle size={28} />
               </button>
             ) : (
               <NavLink to="/login">Login</NavLink>
