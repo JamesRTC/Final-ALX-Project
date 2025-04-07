@@ -30,7 +30,7 @@ export default function DetailsLayout({ details }) {
             <IoIosArrowRoundBack /> <span>back</span>
           </button>
           <img
-            src={`https://image.tmdb.org/t/p/w342${details.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w780${details.poster_path}`}
             alt={details.title || details.name}
             className="w-[250px] rounded-lg shadow-lg max-sm:rounded-none max-sm:w-full"
           />

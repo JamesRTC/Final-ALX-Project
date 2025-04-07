@@ -69,7 +69,7 @@ export default function HeroSlidingDeck() {
       spaceBetween={10}
     >
       {data.results
-        .filter((movie) => movie.vote_average >= 7)
+        .filter((movie) => movie.vote_average >= 6)
         .map((movie) => (
           <SwiperSlide key={movie.id} className="flex justify-center items-center">
             <Link to={`/movie/${movie.id}`}>
@@ -113,7 +113,7 @@ export default function HeroSlidingDeck() {
       grabCursor={true}
     >
       {data.results
-        .filter((movie) => movie.vote_average >= 7)
+        .filter((movie) => movie.vote_average >= 6)
         .map((movie) => (
           <SwiperSlide key={movie.id} className="flex justify-center items-center">
             <Link to={`/movie/${movie.id}`}>
