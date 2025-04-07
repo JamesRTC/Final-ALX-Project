@@ -9,15 +9,19 @@ export default function AppLayout() {
 
   return (
     <div className="bg-black flex flex-col min-h-screen">
-      <NavBar />
-      <MobileNavBar isOpen={isMobileMenuOpen} setIsOpen={setIsMobileMenuOpen} />
+      <header>
+        <NavBar />
+        <MobileNavBar isOpen={isMobileMenuOpen} setIsOpen={setIsMobileMenuOpen} />
+      </header>
 
       {!isMobileMenuOpen && (
         <>
-          <section className="flex-1">
+          <main className="flex-1">
             <Outlet />
-          </section>
-          <Footer className="mt-auto" />
+          </main>
+          <footer className="mt-auto">
+            <Footer />
+          </footer>
         </>
       )}
     </div>

@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { GiFilmSpool } from "react-icons/gi";
+import { FaUserCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 import SearchBar from "./SearchBar";
 import useSearch from "../Hooks/useSearch";
@@ -9,13 +10,13 @@ import MenuToggle from "./ToggleMenu";
 import SearchToggle from "./ToggleSearch";
 
 export default function MobileNavBar({ isOpen, setIsOpen }) {
-  const { query, handleSearchChange } = useSearch();
+  const { query, handleSearchChange, isSearchOpen, setIsSearchOpen, toggleSearch } = useSearch();
   const { user, logout } = useAuth();
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
+  const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
-  const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,12 +32,43 @@ export default function MobileNavBar({ isOpen, setIsOpen }) {
   return (
     <>
       <nav className="md:hidden w-full bg-gray-900 text-white p-4 flex justify-between items-center">
+        <MenuToggle isOpen={isOpen} toggleMenu={toggleMenu} />
         <Link to="/" className="flex items-center gap-2 text-xl">
           <GiFilmSpool size="30px" />
           <span>WatchIT</span>
         </Link>
-        <SearchToggle isSearchOpen={isSearchOpen} toggleSearch={toggleSearch} />
-        <MenuToggle isOpen={isOpen} toggleMenu={toggleMenu} />
+        <div className="flex items-center justify-between">
+          <SearchToggle isSearchOpen={isSearchOpen} toggleSearch={toggleSearch} size={30} />
+          <div className="relative">
+            {user ? (
+              <button onClick={toggleUserMenu} className="p-2 hover:cursor-pointer">
+                <FaUserCircle size={30} />
+              </button>
+            ) : (
+              <NavLink to="/login">Login</NavLink>
+            )}
+
+            {isUserMenuOpen && user && (
+              <motion.div
+                initial={{ opacity: 0, y: "-10px" }}
+                animate={{ opacity: 1, y: "0" }}
+                exit={{ opacity: 0, y: "-10px" }}
+                transition={{ duration: 0.3 }}
+                className="absolute left-1/2 transform -translate-x-1/2 bg-gray-900 p-4 rounded shadow-lg w-32 mt-2 z-50"
+              >
+                <div
+                  className="hover:text-red-500 cursor-pointer text-center"
+                  onClick={async () => {
+                    await logout();
+                    setIsUserMenuOpen(false);
+                  }}
+                >
+                  Logout
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </div>
       </nav>
 
       {isSearchOpen && (

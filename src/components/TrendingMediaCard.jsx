@@ -41,7 +41,6 @@ export default function TrendingMediaCard({ item, isWatchlistEmpty, setIsWatchli
 
     setIsFavorite(!isFavorite);
 
-    // Update `isWatchlistEmpty` globally
     setIsWatchlistEmpty(updatedWatchlist.length === 0);
   };
 

@@ -5,26 +5,15 @@ import { FaUserCircle } from "react-icons/fa";
 import { useAuth } from "../Context/AuthContext";
 import SearchBar from "./SearchBar";
 import useSearch from "../Hooks/useSearch";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function NavBar() {
-  const { query, handleSearchChange } = useSearch();
+  const { query, handleSearchChange, toggleSearch, isSearchOpen, isCompact } = useSearch();
   const { user, logout } = useAuth();
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isCompact, setIsCompact] = useState(window.innerWidth <= 1250);
+
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  useEffect(() => {
-    const handleResize = () => {
-      setIsCompact(window.innerWidth <= 1250);
-      if (window.innerWidth > 1250) setIsSearchOpen(false);
-    };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
   const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
 
   const navLinkClasses = ({ isActive }) =>
@@ -60,27 +49,27 @@ export default function NavBar() {
       )}
 
       <ul className="flex items-center gap-[50px] max-[950px]:gap-[25px] max-[950px]:text-[20px]  justify-center text-xl">
-        <li className="hover:text-blue-500 delay-150">
+        <li>
           <NavLink className={navLinkClasses} to="/">
             Home
           </NavLink>
         </li>
-        <li className="hover:text-blue-500 delay-150">
+        <li>
           <NavLink className={navLinkClasses} to="/movies">
             Movies
           </NavLink>
         </li>
-        <li className="hover:text-blue-500 delay-150">
+        <li>
           <NavLink className={navLinkClasses} to="/series">
             Series
           </NavLink>
         </li>
-        <li className="hover:text-blue-500 delay-150">
+        <li>
           <NavLink className={navLinkClasses} to="/trending">
             Trending
           </NavLink>
         </li>
-        <li className="hover:text-blue-500 delay-150">
+        <li>
           <NavLink className={navLinkClasses} to="/watchlist">
             Watchlist
           </NavLink>

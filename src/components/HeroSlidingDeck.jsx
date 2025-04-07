@@ -29,7 +29,7 @@ export default function HeroSlidingDeck() {
   useEffect(() => {
     const interval = setInterval(() => {
       setPageCount((prev) => prev + 1);
-    }, 1000 * 60 * 5);
+    }, 1000 * 60 * 2);
 
     return () => clearInterval(interval);
   }, []);
@@ -71,13 +71,13 @@ export default function HeroSlidingDeck() {
       {data.results
         .filter((movie) => movie.vote_average >= 6)
         .map((movie) => (
-          <SwiperSlide key={movie.id} className="flex justify-center items-center">
+          <SwiperSlide key={movie.id} className=" flex justify-center items-center">
             <Link to={`/movie/${movie.id}`}>
               <div className="relative w-[600px] h-[800px] sm:w-[450px] sm:h-[600px] md:w-[550px] md:h-[700px] max-sm:mt-0  max-sm:h-full max-sm:w-full">
                 <img
                   src={`https://image.tmdb.org/t/p/w780${movie.poster_path}`}
                   alt={movie.title}
-                  className="rounded-lg shadow-lg object-cover w-full h-full max-sm:rounded-none"
+                  className="rounded-lg shadow-lg object-cover w-full h-full max-sm:rounded-none z-1"
                 />
                 <div className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 rounded-md py-5 px-10  max-sm:px-5 max-sm-py-2">
                   <h2 className="text-lg font-bold max-sm:text-sm">
@@ -115,7 +115,7 @@ export default function HeroSlidingDeck() {
       {data.results
         .filter((movie) => movie.vote_average >= 6)
         .map((movie) => (
-          <SwiperSlide key={movie.id} className="flex justify-center items-center">
+          <SwiperSlide key={movie.id} className="flex justify-center items-center z-1">
             <Link to={`/movie/${movie.id}`}>
               <div className="relative w-[600px] h-[800px] sm:w-[450px] sm:h-[600px] md:w-[550px] md:h-[700px]">
                 <img
