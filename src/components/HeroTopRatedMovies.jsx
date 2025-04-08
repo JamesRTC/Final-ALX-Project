@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { heroTopRatedMovies } from "../API/api";
 import { useNavigate } from "react-router-dom";
 import MovieCard from "./MovieCard";
-import { useState, useEffect } from "react";
-import { auth } from "../Firebase/firebaseConfig";
-
+import useWatchlistEmptyCheck from "../Hooks/useWatchlistEmptyCheck";
 export default function HeroTopRatedMovies() {
+  const { isWatchlistEmpty, setIsWatchlistEmpty } = useWatchlistEmptyCheck();
+
   const navigate = useNavigate();
   const { data, isLoading, error } = useQuery({
     queryKey: ["heroTopRatedMovies", 1],
@@ -15,18 +15,6 @@ export default function HeroTopRatedMovies() {
     refetchOnWindowFocus: false,
     keepPreviousData: true,
   });
-
-  const [isWatchlistEmpty, setIsWatchlistEmpty] = useState(true);
-
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
-    const userWatchlist = storedWatchlists[user.uid] || [];
-
-    setIsWatchlistEmpty(userWatchlist.length === 0);
-  }, []);
 
   if (isLoading)
     return (

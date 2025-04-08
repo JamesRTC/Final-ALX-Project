@@ -1,9 +1,10 @@
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+
 export default function DetailsLayout({ details }) {
   const navigate = useNavigate();
   return (
-    <div className="text-white min-h-screen ">
+    <div className="text-white min-h-screen">
       <div
         className="relative w-full h-[500px] bg-cover bg-top-[30px] max-sm:hidden"
         style={{
@@ -21,11 +22,12 @@ export default function DetailsLayout({ details }) {
           <IoIosArrowRoundBack /> <span>back</span>
         </button>
       </div>
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="flex flex-col md:flex-row gap-6">
+
+      <div className="max-w-4xl mx-auto pt-6 max-sm:pt-3">
+        <div className="flex flex-col md:flex-row gap-6 max-sm:gap-3">
           <button
             onClick={() => navigate(-1)}
-            className=" sm:hidden flex items-center gap-2 font-bold hover:text-blue-500 delay-150 cursor-pointer"
+            className=" sm:hidden flex items-center gap-2 font-bold hover:text-blue-500 delay-150 cursor-pointer px-3"
           >
             <IoIosArrowRoundBack /> <span>back</span>
           </button>
@@ -34,57 +36,61 @@ export default function DetailsLayout({ details }) {
             alt={details.title || details.name}
             className="w-[250px] rounded-lg shadow-lg max-sm:rounded-none max-sm:w-full"
           />
-          <div className="flex-1 space-y-3">
-            <p className="text-gray-300 italic">{details.tagline}</p>
-            <p className="text-gray-400 leading-6">{details.overview}</p>
-            <div className="space-y-2">
-              <p>
-                <span className="font-bold">Genres:</span> {details.genres.map((g) => g.name).join(", ")}
-              </p>
-              {details.release_date && (
+          <div className="flex-1 space-y-6 max-sm:px-6">
+            <div className="bg-gray-800 p-4 rounded-lg shadow-sm shadow-gray-700 hover:shadow-md transition-shadow duration-300">
+              <p className="text-gray-300 italic">{details.tagline}</p>
+              <p className="text-gray-400 leading-6">{details.overview}</p>
+            </div>
+            <div className="space-y-4">
+              <div className="bg-gray-800 p-4 rounded-lg shadow-sm shadow-gray-700 hover:shadow-md transition-shadow duration-300">
                 <p>
-                  <span className="font-bold">Release Date:</span> {details.release_date}
+                  <span className="font-bold">Genres:</span> {details.genres.map((g) => g.name).join(", ")}
                 </p>
-              )}
-              {details.first_air_date && (
+                {details.release_date && (
+                  <p>
+                    <span className="font-bold">Release Date:</span> {details.release_date}
+                  </p>
+                )}
+                {details.first_air_date && (
+                  <p>
+                    <span className="font-bold">First Air Date:</span> {details.first_air_date}
+                  </p>
+                )}
+                {details.runtime && (
+                  <p>
+                    <span className="font-bold">Runtime:</span> {details.runtime} min
+                  </p>
+                )}
                 <p>
-                  <span className="font-bold">First Air Date:</span> {details.first_air_date}
+                  <span className="font-bold">Rating:</span> ⭐ {details.vote_average.toFixed(1)}
                 </p>
-              )}
-              {details.runtime && (
+                {details.number_of_seasons && (
+                  <p>
+                    <span className="font-bold">Number of Seasons:</span> {details.number_of_seasons}
+                  </p>
+                )}
+                {details.networks && (
+                  <p>
+                    <span className="font-bold">Networks:</span>{" "}
+                    {details.networks.map((network) => network.name).join(", ")}
+                  </p>
+                )}
+                {details.status && (
+                  <p>
+                    <span className="font-bold">Status:</span> {details.status}
+                  </p>
+                )}
                 <p>
-                  <span className="font-bold">Runtime:</span> {details.runtime} min
+                  <span className="font-bold">Spoken Languages:</span>{" "}
+                  {details.spoken_languages.map((l) => l.english_name).join(", ")}
                 </p>
-              )}
-              <p>
-                <span className="font-bold">Rating:</span> ⭐ {details.vote_average.toFixed(1)}
-              </p>
-              {details.number_of_seasons && (
-                <p>
-                  <span className="font-bold">Number of Seasons:</span> {details.number_of_seasons}
-                </p>
-              )}
-              {details.networks && (
-                <p>
-                  <span className="font-bold">Networks:</span>{" "}
-                  {details.networks.map((network) => network.name).join(", ")}
-                </p>
-              )}
-              {details.status && (
-                <p>
-                  <span className="font-bold">Status:</span> {details.status}
-                </p>
-              )}
-              <p>
-                <span className="font-bold">Spoken Languages:</span>{" "}
-                {details.spoken_languages.map((l) => l.english_name).join(", ")}
-              </p>
-              {details.production_countries.length !== 0 && (
-                <p>
-                  <span className="font-bold">Production Countries:</span>{" "}
-                  {details.production_countries.map((c) => c.name).join(", ")}
-                </p>
-              )}
+                {details.production_countries.length !== 0 && (
+                  <p>
+                    <span className="font-bold">Production Countries:</span>{" "}
+                    {details.production_countries.map((c) => c.name).join(", ")}
+                  </p>
+                )}
+              </div>
             </div>
             {details.imdb_id && (
               <a

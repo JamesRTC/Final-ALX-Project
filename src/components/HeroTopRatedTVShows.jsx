@@ -2,11 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { heroTopRatedTVShows } from "../API/api";
 import { useNavigate } from "react-router-dom";
 import SeriesCard from "./SeriesCard";
-import { useState, useEffect } from "react";
-import { auth } from "../Firebase/firebaseConfig";
+import useWatchlistEmptyCheck from "../Hooks/useWatchlistEmptyCheck";
 
 export default function HeroTopRatedTVShows() {
   const navigate = useNavigate();
+  const { isWatchlistEmpty, setIsWatchlistEmpty } = useWatchlistEmptyCheck();
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["heroTopRatedTVShows", 1],
     queryFn: () => heroTopRatedTVShows(1),
@@ -15,18 +16,6 @@ export default function HeroTopRatedTVShows() {
     refetchOnWindowFocus: false,
     keepPreviousData: true,
   });
-
-  const [isWatchlistEmpty, setIsWatchlistEmpty] = useState(true);
-
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
-    const userWatchlist = storedWatchlists[user.uid] || [];
-
-    setIsWatchlistEmpty(userWatchlist.length === 0);
-  }, []);
 
   if (isLoading)
     return (

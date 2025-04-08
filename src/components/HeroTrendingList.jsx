@@ -2,11 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { heroTrendingList } from "../API/api";
 import TrendingMediaCard from "./TrendingMediaCard";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { auth } from "../Firebase/firebaseConfig";
+import useWatchlistEmptyCheck from "../Hooks/useWatchlistEmptyCheck";
 
 export default function HeroTrendingList() {
   const navigate = useNavigate();
+  const { isWatchlistEmpty, setIsWatchlistEmpty } = useWatchlistEmptyCheck();
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["heroTrendingList", 1],
     queryFn: () => heroTrendingList(1),
@@ -15,18 +16,6 @@ export default function HeroTrendingList() {
     refetchOnWindowFocus: false,
     keepPreviousData: true,
   });
-
-  const [isWatchlistEmpty, setIsWatchlistEmpty] = useState(true);
-
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
-    const userWatchlist = storedWatchlists[user.uid] || [];
-
-    setIsWatchlistEmpty(userWatchlist.length === 0);
-  }, []);
 
   if (isLoading)
     return (
