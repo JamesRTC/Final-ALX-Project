@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { getYearWatchlist } from "../Utils/getMovieYear";
-import UseHandleFavoriteClick from "../Hooks/useHandleFavoriteClick";
+import useHandleFavoriteClick from "../Hooks/useHandleFavoriteClick";
 import FavoriteButton from "./FavoriteButton";
 
 export default function SeriesCard({ item, isWatchlistEmpty, setIsWatchlistEmpty }) {
-  const { handleFavoriteClick, isFavorite } = UseHandleFavoriteClick(item, setIsWatchlistEmpty);
+  const { handleFavoriteClick, isFavorite } = useHandleFavoriteClick(item, setIsWatchlistEmpty);
 
   const imageUrl = item.poster_path
     ? `https://image.tmdb.org/t/p/w342${item.poster_path}`

@@ -1,39 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { heroSlidingDeckMovies } from "../API/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import MovieCard from "../components/MovieCard";
-import { useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import Filters from "../components/Filters";
-import { auth } from "../Firebase/firebaseConfig";
+import useWatchlistEmptyCheck from "../Hooks/useWatchlistEmptyCheck";
+import useSetSearchParams from "../Hooks/useSetSearchParams";
 
 export default function Movies() {
+  const { handleSearch, page, selectedGenre, selectedRating, selectedYear, sortBy } = useSetSearchParams();
+  const { isWatchlistEmpty, setIsWatchlistEmpty } = useWatchlistEmptyCheck();
+
   const queryClient = useQueryClient();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [isWatchlistEmpty, setIsWatchlistEmpty] = useState(true);
-
-  // URL Params
-  const page = Number(searchParams.get("page")) || 1;
-  const selectedGenre = searchParams.get("genre") || "";
-  const selectedYear = searchParams.get("year") || "";
-  const selectedRating = searchParams.get("rating") || "";
-  const sortBy = searchParams.get("sort_by") || "popularity.desc";
-
-  const handleSearch = (filters) => {
-    setSearchParams({
-      page: "1",
-      genre: filters.genre,
-      year: filters.year,
-      rating: filters.rating,
-      sort_by: filters.sortBy,
-    });
-  };
-
-  useEffect(() => {
-    if (!searchParams.has("page")) {
-      setSearchParams({ page: "1" }, { replace: true });
-    }
-  }, []);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["movies", page, selectedGenre, selectedYear, selectedRating, sortBy],
@@ -57,20 +35,6 @@ export default function Movies() {
       });
     }
   }, [page, queryClient, data, selectedGenre, selectedYear, selectedRating, sortBy]);
-
-  const checkWatchlistEmpty = () => {
-    const user = auth.currentUser;
-    if (!user) return true;
-
-    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
-    const userWatchlist = storedWatchlists[user.uid] || [];
-
-    return userWatchlist.length === 0;
-  };
-
-  useEffect(() => {
-    setIsWatchlistEmpty(checkWatchlistEmpty());
-  }, []);
 
   if (isLoading)
     return (

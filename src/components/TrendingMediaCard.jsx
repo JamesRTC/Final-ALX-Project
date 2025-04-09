@@ -1,48 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getYearTrending } from "../Utils/getMovieYear";
-import { useState, useEffect } from "react";
-import { auth } from "../Firebase/firebaseConfig";
+
 import FavoriteButton from "./FavoriteButton";
+import useHandleFavoriteClick from "../Hooks/useHandleFavoriteClick";
 
 export default function TrendingMediaCard({ item, isWatchlistEmpty, setIsWatchlistEmpty }) {
-  const [isFavorite, setIsFavorite] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
-    const userWatchlist = storedWatchlists[user.uid] || [];
-
-    setIsFavorite(userWatchlist.some((media) => media.id === item.id));
-  }, [item.id]);
-
-  const handleFavoriteClick = () => {
-    const user = auth.currentUser;
-
-    if (!user) {
-      localStorage.setItem("redirectAfterLogin", window.location.pathname);
-      return navigate("/login");
-    }
-
-    const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
-    const userWatchlist = storedWatchlists[user.uid] || [];
-
-    let updatedWatchlist;
-    if (isFavorite) {
-      updatedWatchlist = userWatchlist.filter((media) => media.id !== item.id);
-    } else {
-      updatedWatchlist = [...userWatchlist, item];
-    }
-
-    storedWatchlists[user.uid] = updatedWatchlist;
-    localStorage.setItem("watchlist", JSON.stringify(storedWatchlists));
-
-    setIsFavorite(!isFavorite);
-
-    setIsWatchlistEmpty(updatedWatchlist.length === 0);
-  };
+  const { handleFavoriteClick, isFavorite } = useHandleFavoriteClick(item, setIsWatchlistEmpty);
 
   const imageUrl = item.poster_path
     ? `https://image.tmdb.org/t/p/w342${item.poster_path}`

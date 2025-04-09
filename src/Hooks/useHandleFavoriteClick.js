@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { auth } from "../Firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
-export default function UseHandleFavoriteClick(item, setIsWatchlistEmpty) {
+export default function useHandleFavoriteClick(item, setIsWatchlistEmpty) {
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
@@ -12,7 +12,7 @@ export default function UseHandleFavoriteClick(item, setIsWatchlistEmpty) {
 
     const storedWatchlists = JSON.parse(localStorage.getItem("watchlist")) || {};
     const userWatchlist = storedWatchlists[user.uid] || [];
-
+    console.log("userWatchlist:", storedWatchlists[user.uid]);
     setIsFavorite(userWatchlist.some((movie) => movie.id === item.id));
   }, [item.id]);
 
@@ -40,6 +40,5 @@ export default function UseHandleFavoriteClick(item, setIsWatchlistEmpty) {
     setIsFavorite(!isFavorite);
     setIsWatchlistEmpty(updatedWatchlist.length === 0);
   };
-
   return { handleFavoriteClick, isFavorite };
 }

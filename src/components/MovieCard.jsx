@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { getYear } from "../Utils/getMovieYear";
-import UseHandleFavoriteClick from "../Hooks/useHandleFavoriteClick";
+import useHandleFavoriteClick from "../Hooks/useHandleFavoriteClick";
 import FavoriteButton from "./FavoriteButton";
 
 export default function MovieCard({ item, isWatchlistEmpty, setIsWatchlistEmpty }) {
-  const { handleFavoriteClick, isFavorite } = UseHandleFavoriteClick(item, setIsWatchlistEmpty);
+  const { handleFavoriteClick, isFavorite } = useHandleFavoriteClick(item, setIsWatchlistEmpty);
 
   return (
     <div className="bg-gray-300 p-2 rounded-lg shadow-md relative">
